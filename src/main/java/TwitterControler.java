@@ -68,22 +68,32 @@ public class TwitterControler {
             i++;
         }
     }
-    public void printFollowersIDList (Twitter twitter, String userName) throws TwitterException {
-
+    public List<Long> getFollowersIDList (Twitter twitter, String userName) throws TwitterException {
         long cursor =-1L;
         IDs ids;
-        List<Long> friendIDList = new ArrayList<>();
+        List<Long> followersIDList = new ArrayList<>();
         do {
             ids = twitter.getFollowersIDs(userName, cursor);
             for(long userID : ids.getIDs()){
-                friendIDList.add(userID);
+                followersIDList.add(userID);
             }
         } while((cursor = ids.getNextCursor())!=0 );
-        for(long userID: friendIDList){
+        return  followersIDList;
+    }
+
+    public void printFollowersIDList (Twitter twitter, String userName) throws TwitterException {
+        List<Long> followersIDList = getFollowersIDList(twitter, userName);
+        for(long userID: followersIDList){
             System.out.println(userID);
             //twitter.showUser(userID).getScreenName();
         }
-        System.out.println(friendIDList.size());
+    }
+
+    public Integer countFollowers (Twitter twitter, String userName) throws TwitterException {
+        List<Long> followersIDList = getFollowersIDList(twitter, userName);
+        Integer followersCount = followersIDList.size();
+        System.out.println(followersCount);
+        return followersCount;
     }
 
 }

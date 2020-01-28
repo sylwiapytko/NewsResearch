@@ -17,11 +17,13 @@ public class Application {
 
         TwitterControler twitterControler = new TwitterControler();
 
+        String userName = "chomik_slawomir";
         //twitterControler.printUserTimeline(twitter, "eitimagresea", 1, 10);
         //twitterControler.printURLfromMyTweets(twitter);
         //twitterControler.printFavourites(twitter);
-        //twitterControler.printFollowersList(twitter,"chomik_slawomir");
-        twitterControler.printFollowersIDList(twitter,"chomik_slawomir");
+        //twitterControler.printFollowersList(twitter,userName);
+        //twitterControler.printFollowersIDList(twitter,userName);
+        twitterControler.countFollowers(twitter,userName);
 
         System.out.println("End");
 
