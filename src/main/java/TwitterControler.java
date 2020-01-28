@@ -1,9 +1,14 @@
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Created by Sylwia on 08-Dec-19.
@@ -33,12 +38,42 @@ public class TwitterControler {
                 .collect(Collectors.toList());
     }
 
-    public void printUserTimeline(Twitter twitter, String userName, Integer pagingPage, Integer pagingCount) throws TwitterException {
+    public List<Status> printUserTimeline(Twitter twitter, String userName, Integer pagingPage, Integer pagingCount) throws TwitterException {
         Paging paging = new Paging(pagingPage, pagingCount);
         List<Status> statuses = twitter.getUserTimeline(userName,paging);
         for (Status status : statuses) {
-            System.out.println(status);
+            System.out.println(status.getFavoriteCount());
+            System.out.println(status.getRetweetCount());
         }
+        return  statuses;
+    }
+    public List<Status> getUserTimelineList(Twitter twitter, String userName) throws TwitterException, InterruptedException {
+        List<Status> statuses = new ArrayList<>();
+        int pageno = 1;
+        while(true) {
+            System.out.println("getting tweets");
+            int size = statuses.size(); // actual tweets count we got
+            Paging page = new Paging(pageno, 200);
+            statuses.addAll(twitter.getUserTimeline(userName, page));
+            System.out.println("total got : " + statuses.size());
+            if (statuses.size() == size) { break; } // we did not get new tweets so we have done the job
+            pageno++;
+            sleep(1000); // 900 rqt / 15 mn <=> 1 rqt/s
+        }
+        return statuses;
+    }
+    public void writeUserTimelineToFile(Twitter twitter, String userName)
+            throws IOException, TwitterException, InterruptedException {
+        String str = "Hello";
+        BufferedWriter writer = new BufferedWriter(new FileWriter("testFile"));
+        List<Status> statuses = getUserTimelineList(twitter, userName);
+        int i=1;
+        for (Status status : statuses) {
+            writer.write(i+ " "+status.getCreatedAt().toString() +" "+ status.getFavoriteCount()+ " " +status.getText() );
+            writer.newLine();
+            i++;
+        }
+      writer.close();
     }
 
     public void printURLfromMyTweets(Twitter twitter) throws TwitterException {
