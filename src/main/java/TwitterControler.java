@@ -35,7 +35,7 @@ public class TwitterControler {
 
     public void printUserTimeline(Twitter twitter, String userName, Integer pagingPage, Integer pagingCount) throws TwitterException {
         Paging paging = new Paging(pagingPage, pagingCount);
-        List<Status> statuses = twitter.getUserTimeline("eitimagresea",paging);
+        List<Status> statuses = twitter.getUserTimeline(userName,paging);
         for (Status status : statuses) {
             System.out.println(status);
         }
@@ -96,4 +96,37 @@ public class TwitterControler {
         return followersCount;
     }
 
-}
+    public void printRetweets(Twitter twitter, Long tweetID )throws TwitterException {
+        List<Status> statuses = twitter.getRetweets(tweetID);
+        for (Status status : statuses) {
+            System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+        }
+    }
+    public List<Long> getRetweeterIDList(Twitter twitter, Long tweetID )throws TwitterException {
+
+        long cursor =-1L;
+        IDs ids;
+        List<Long> retweeterIDList = new ArrayList<>();
+        do {
+            ids = twitter.getRetweeterIds(tweetID, cursor);
+            for(long userID : ids.getIDs()){
+                retweeterIDList.add(userID);
+            }
+        } while((cursor = ids.getNextCursor())!=0 );
+        return  retweeterIDList;
+    }
+
+    public void printRetweeterIDList(Twitter twitter, Long tweetID )throws TwitterException {
+        List<Long> retweeterIDList = getRetweeterIDList(twitter, tweetID);
+        for(long userID: retweeterIDList){
+            System.out.println(userID);
+        }
+    }
+    public Integer countRetweets (Twitter twitter, Long tweetID ) throws TwitterException {
+        List<Long> retweeterIDList = getRetweeterIDList(twitter, tweetID);
+        Integer retweetsCount = retweeterIDList.size();
+        System.out.println(retweetsCount);
+        return retweetsCount;
+    }
+
+    }
