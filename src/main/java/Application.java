@@ -21,6 +21,7 @@ public class Application {
         //twitterControler.printURLfromMyTweets(twitter);
         //twitterControler.printFavourites(twitter);
         //twitterControler.printFollowersList(twitter,"chomik_slawomir");
+        twitterControler.printFollowersIDList(twitter,"chomik_slawomir");
 
         System.out.println("End");
 

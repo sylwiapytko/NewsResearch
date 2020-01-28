@@ -1,6 +1,7 @@
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,9 +62,28 @@ public class TwitterControler {
 
     public void printFollowersList (Twitter twitter, String userName) throws TwitterException {
         List<User> followers = twitter.getFollowersList(userName, -1);
+        int i=1;
         for (User follower : followers) {
-            System.out.println(follower.getName() +" "+ follower.getId());
+            System.out.println(i+follower.getName() +" "+ follower.getId());
+            i++;
         }
+    }
+    public void printFollowersIDList (Twitter twitter, String userName) throws TwitterException {
+
+        long cursor =-1L;
+        IDs ids;
+        List<Long> friendIDList = new ArrayList<>();
+        do {
+            ids = twitter.getFollowersIDs(userName, cursor);
+            for(long userID : ids.getIDs()){
+                friendIDList.add(userID);
+            }
+        } while((cursor = ids.getNextCursor())!=0 );
+        for(long userID: friendIDList){
+            System.out.println(userID);
+            //twitter.showUser(userID).getScreenName();
+        }
+        System.out.println(friendIDList.size());
     }
 
 }
