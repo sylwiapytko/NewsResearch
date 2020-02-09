@@ -190,4 +190,32 @@ public class TwitterControler {
         return retweetsCount;
     }
 
+    public void printUser(Twitter twitter,String userName) throws TwitterException {
+        User user = twitter.showUser(userName);
+        System.out.println("id "+user.getId());
+        System.out.println("name "+ user.getName());
+        System.out.println("screename " + user.getScreenName());
+        System.out.println("created " +user.getCreatedAt());
+        System.out.println("lang " +user.getLang());
+        System.out.println("url " +user.getURL());
+        System.out.println("urlEntity " +user.getURLEntity().getExpandedURL());
+        System.out.println("description " +user.getDescription());
+        System.out.println("statuses " +user.getStatusesCount());
+        System.out.println("favourites " +user.getFavouritesCount());
+        System.out.println("followers " +user.getFollowersCount());
+        System.out.println("friends " +user.getFriendsCount());
+        System.out.println("listed " +user.getListedCount());
+        System.out.println("location " +user.getLocation());
+        System.out.println("defaultImage " +user.isDefaultProfileImage());
+        System.out.println("defaultProfile " +user.isDefaultProfile());
+        String url= "https://twitter.com/" + user.getScreenName();
+        System.out.println(url);
+        URLEntity[] urls = user.getDescriptionURLEntities();
+        for(URLEntity urlEntity : urls) {
+            System.out.println("Website : "+urlEntity.getExpandedURL());
+            // System.out.println("Website : "+urlEntity.getURL());
+        }
+
+    }
+
     }
