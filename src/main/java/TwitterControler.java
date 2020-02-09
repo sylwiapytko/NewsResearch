@@ -42,8 +42,33 @@ public class TwitterControler {
         Paging paging = new Paging(pagingPage, pagingCount);
         List<Status> statuses = twitter.getUserTimeline(userName,paging);
         for (Status status : statuses) {
-            System.out.println(status.getFavoriteCount());
-            System.out.println(status.getRetweetCount());
+            System.out.println(status.getId() + " "+ status.getText());
+            System.out.println("favorite "+ status.getFavoriteCount());
+            System.out.println("retweets "+status.getRetweetCount());
+            System.out.println("geo "+status.getGeoLocation());
+            System.out.println("place "+status.getPlace());
+            System.out.println("scopes "+status.getScopes());
+            System.out.println("source "+status.getSource());
+            System.out.println("countries "+status.getWithheldInCountries());
+            System.out.println("isRetweet "+status.isRetweet());
+            System.out.println("created at  "+status.getCreatedAt());
+            System.out.println("id  "+status.getId());
+            System.out.println("lang  "+status.getLang());
+            System.out.println("replyToStatus  "+status.getInReplyToStatusId());
+            System.out.println("getQuotedStatusId  "+status.getQuotedStatusId());
+            if(status.isRetweet()){
+                System.out.println("getRetweetedStatus  "+status.getRetweetedStatus().getId());
+            }
+            System.out.println("userid  "+status.getUser().getId());
+            URLEntity[] urls = status.getURLEntities();
+            for(URLEntity urlEntity : urls) {
+                System.out.println("Website : "+urlEntity.getExpandedURL());
+               // System.out.println("Website : "+urlEntity.getURL());
+            }
+            String url= "https://twitter.com/" + status.getUser().getScreenName()
+                    + "/status/" + status.getId();
+            System.out.println(url);
+            System.out.println();
         }
         return  statuses;
     }
@@ -102,6 +127,7 @@ public class TwitterControler {
             System.out.println(i+follower.getName() +" "+ follower.getId());
             i++;
         }
+
     }
     public List<Long> getFollowersIDList (Twitter twitter, String userName) throws TwitterException {
         long cursor =-1L;
