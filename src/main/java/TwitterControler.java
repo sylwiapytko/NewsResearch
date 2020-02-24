@@ -90,7 +90,7 @@ public class TwitterControler {
     public void writeUserTimelineToFile(Twitter twitter, String userName)
             throws IOException, TwitterException, InterruptedException {
         String str = "Hello";
-        BufferedWriter writer = new BufferedWriter(new FileWriter("testFile"));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("testFile.txt"));
         List<Status> statuses = getUserTimelineList(twitter, userName);
         int i=1;
         for (Status status : statuses) {
@@ -160,7 +160,7 @@ public class TwitterControler {
     public void printRetweets(Twitter twitter, Long tweetID )throws TwitterException {
         List<Status> statuses = twitter.getRetweets(tweetID);
         for (Status status : statuses) {
-            System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+            System.out.println("@" + status.getUser().getScreenName() + " - " + status.getId());
         }
     }
     public List<Long> getRetweeterIDList(Twitter twitter, Long tweetID )throws TwitterException {
@@ -169,7 +169,7 @@ public class TwitterControler {
         IDs ids;
         List<Long> retweeterIDList = new ArrayList<>();
         do {
-            ids = twitter.getRetweeterIds(tweetID, cursor);
+            ids = twitter.getRetweeterIds(tweetID,200, cursor);
             for(long userID : ids.getIDs()){
                 retweeterIDList.add(userID);
             }
@@ -186,6 +186,12 @@ public class TwitterControler {
     public Integer countRetweets (Twitter twitter, Long tweetID ) throws TwitterException {
         List<Long> retweeterIDList = getRetweeterIDList(twitter, tweetID);
         Integer retweetsCount = retweeterIDList.size();
+        System.out.println(retweetsCount);
+
+        return retweetsCount;
+    }
+    public Integer countRetweets2 (Twitter twitter, Long tweetID ) throws TwitterException {
+        Integer retweetsCount = twitter.showStatus(tweetID).getRetweetCount();
         System.out.println(retweetsCount);
         return retweetsCount;
     }

@@ -18,10 +18,12 @@ public class Application {
 
         TwitterControler twitterControler = new TwitterControler();
 
-        String userName = "chomik_slawomir";
+        //String userName = "eitimagresea";
+        //String userName = "chomik_slawomir";
         //String userName = "oko_press";
-        Long tweetId = 1222189367286026243L;
-        //twitterControler.printUserTimeline(twitter, userName, 1, 10);
+        String userName = "hildatheseries";
+        Long tweetId = 1228383913460092929L;
+        //twitterControler.printUserTimeline(twitter, userName, 1, 2);
         //twitterControler.getUserTimelineList(twitter, userName);
         //System.out.println(twitter.showUser(userName).getStatusesCount());
         //twitterControler.printURLfromMyTweets(twitter);
@@ -30,12 +32,13 @@ public class Application {
         //twitterControler.printFollowersIDList(twitter,userName);
         //twitterControler.countFollowers(twitter,userName);
         //twitterControler.printRetweets(twitter,tweetId);
-        //twitterControler.printRetweeterIDList(twitter,tweetId);
+       // twitterControler.printRetweeterIDList(twitter,tweetId);
         //twitterControler.countRetweets(twitter,tweetId);
+        //twitterControler.countRetweets2(twitter,tweetId);
 
         //twitterControler.writeUserTimelineToFile(twitter,userName);
 
-
+        twitterControler.printUser(twitter,userName);
 
 
         System.out.println("End");
