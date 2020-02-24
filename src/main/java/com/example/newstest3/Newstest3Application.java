@@ -1,5 +1,6 @@
 package com.example.newstest3;
 
+import com.example.newstest3.TwitterController.AppTwitterControler;
 import com.example.newstest3.controller.AppController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +18,10 @@ public class Newstest3Application {
         SpringApplication.run(Newstest3Application.class, args);
 
         AppController appController = new AppController();
-        appController.callCreateUsers();
+        //appController.callCreateUsers();
         //appController.callGetUsers();
+        AppTwitterControler appTwitterControler= new AppTwitterControler();
+        appTwitterControler.testTwitterController();
 
 
     }
