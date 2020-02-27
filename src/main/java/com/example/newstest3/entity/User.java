@@ -22,11 +22,9 @@ public class User {
     private long id;
 
     @Column(name= "USER_NAME", length = 50)
-    private String userName;
+    private String name;
 
-    @Column(name= "SCREEN_NAME", length = 50)
     private String screenName;
 
-    @Column(name= "DESCRIPTION", length = 250)
     private String description;
 }

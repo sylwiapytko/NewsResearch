@@ -1,5 +1,9 @@
 package com.example.newstest3.TwitterController;
 
+import com.example.newstest3.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -15,19 +19,25 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Sylwia on 08-Dec-19.
  */
-public class TwitterControler {
+@Service
+public class TwitterService {
 
-    public Twitter getTwitterinstance() {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("**")
-                .setOAuthConsumerSecret("**")
-                .setOAuthAccessToken("**")
-                .setOAuthAccessTokenSecret("**");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
-        return  twitter;
-    }
+    @Autowired
+    Twitter twitter;
+    @Autowired
+    private UserRepository userRepository;
+
+//    public Twitter getTwitterinstance() {
+//        ConfigurationBuilder cb = new ConfigurationBuilder();
+//        cb.setDebugEnabled(true)
+//                .setOAuthConsumerKey("**")
+//                .setOAuthConsumerSecret("**")
+//                .setOAuthAccessToken("**")
+//                .setOAuthAccessTokenSecret("**");
+//        TwitterFactory tf = new TwitterFactory(cb.build());
+//        Twitter twitter = tf.getInstance();
+//        return  twitter;
+ //   }
 
     public String createTweet(Twitter twitter,String tweet) throws TwitterException {
         Status status = twitter.updateStatus(tweet);
@@ -198,8 +208,18 @@ public class TwitterControler {
         return retweetsCount;
     }
 
-    public void printUser(Twitter twitter,String userName) throws TwitterException {
-        User user = twitter.showUser(userName);
+    public com.example.newstest3.entity.User printUser(String userName)  {
+        User user = null;
+        try {
+            user = twitter.showUser(userName);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        com.example.newstest3.entity.User mojUser = new com.example.newstest3.entity.User();
+        BeanUtils.copyProperties(user, mojUser);
+        //userRepository.save(mojUser);
+
+
         System.out.println("id "+user.getId());
         System.out.println("name "+ user.getName());
         System.out.println("screename " + user.getScreenName());
@@ -223,7 +243,7 @@ public class TwitterControler {
             System.out.println("Website : "+urlEntity.getExpandedURL());
             // System.out.println("Website : "+urlEntity.getURL());
         }
-
+    return  mojUser;
     }
 
     }

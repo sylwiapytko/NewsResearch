@@ -1,30 +1,60 @@
 package com.example.newstest3;
 
-import com.example.newstest3.TwitterController.AppTwitterControler;
-import com.example.newstest3.controller.AppController;
+import com.example.newstest3.TwitterController.TwitterService;
+import com.example.newstest3.dao.UserService;
+import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-@SpringBootApplication
-public class Newstest3Application {
+import java.text.MessageFormat;
 
-    public static void main(String[] args) throws TwitterException {
-        SpringApplication.run(Newstest3Application.class, args);
+@Log
+    @SpringBootApplication
+    public class Newstest3Application
+            implements CommandLineRunner {
 
-        AppController appController = new AppController();
-        //appController.callCreateUsers();
-        //appController.callGetUsers();
-        AppTwitterControler appTwitterControler= new AppTwitterControler();
-        appTwitterControler.testTwitterController();
+    @Value("${mojparametr}")
+    private  String mojparametr;
+
+        @Autowired
+    UserService userService;
+
+        @Autowired
+    ApplicationArguments applicationArguments;
+
+        @Autowired
+        TwitterService twitterService;
+
+        public static void main(String[] args) {
+            log.info("STARTING THE APPLICATION");
+            SpringApplication.run(Newstest3Application.class, args);
+            log.info("APPLICATION FINISHED");
+        }
+
+        @Override
+        public void run(String... args) throws TwitterException {
+            log.info("EXECUTING : command line runner");
 
 
+            String userName = "hildatheseries";
+            userService.fetchTwitterUsers();
+
+           // userService.createUser();
+           // userService.getUsers().forEach(user -> log.info(user.toString()));
+            for (int i = 0; i < args.length; ++i) {
+                log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
+
+
+            }
+        }
     }
 
 
-}
