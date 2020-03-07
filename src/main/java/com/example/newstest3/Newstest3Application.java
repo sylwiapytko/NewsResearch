@@ -10,25 +10,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 import java.text.MessageFormat;
 
-@Log
+    @Log
     @SpringBootApplication
     public class Newstest3Application
             implements CommandLineRunner {
 
-    @Value("${mojparametr}")
-    private  String mojparametr;
+        @Value("${mojparametr}")
+        private  String mojparametr;
 
         @Autowired
-    UserService userService;
+        UserService userService;
 
         @Autowired
-    ApplicationArguments applicationArguments;
+        ApplicationArguments applicationArguments;
 
         @Autowired
         TwitterService twitterService;
@@ -46,13 +44,11 @@ import java.text.MessageFormat;
 
             String userName = "hildatheseries";
             userService.fetchTwitterUsers();
+             userService.getUsers().forEach(user -> log.info(user.toString()));
+            //userService.getUsers().forEach(System.out::println);
 
-           // userService.createUser();
-           // userService.getUsers().forEach(user -> log.info(user.toString()));
             for (int i = 0; i < args.length; ++i) {
                 log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
-
-
             }
         }
     }
