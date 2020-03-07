@@ -30,14 +30,6 @@ public class UserService  {
     }
 
 
-    public void createUser() {
-        TwitterUser newTwitterUser = new TwitterUser(111L, "Adam", "adamname", "this is description");
-        userRepository.save(newTwitterUser);
-        newTwitterUser = new TwitterUser(112L, "qAdam", "adamname", "this is description");
-        userRepository.save(newTwitterUser);
-        newTwitterUser = new TwitterUser(113L, "wAdam", "adamname", "this is description");
-        userRepository.save(newTwitterUser);
-    }
 
     public List<TwitterUser> getUsers() {
         return new ArrayList<>(userRepository.findAll());

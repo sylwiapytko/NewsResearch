@@ -45,6 +45,7 @@ import java.text.MessageFormat;
             String userName = "hildatheseries";
             userService.fetchTwitterUsers();
              userService.getUsers().forEach(user -> log.info(user.toString()));
+             userService.getUsers().forEach(user -> log.info(user.getURLEntity().getExpandedURL()));
             //userService.getUsers().forEach(System.out::println);
 
             for (int i = 0; i < args.length; ++i) {

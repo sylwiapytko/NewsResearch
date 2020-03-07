@@ -208,6 +208,7 @@ public class TwitterService {
         return retweetsCount;
     }
 
+
     public TwitterUser printUser(String userName)  {
         User user = null;
         try {
@@ -217,6 +218,7 @@ public class TwitterService {
         }
         TwitterUser twitterUser = new TwitterUser();
         BeanUtils.copyProperties(user, twitterUser);
+        twitterUser.setURLExpanded();
         //userRepository.save(twitterUser);
 
 
