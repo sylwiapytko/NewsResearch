@@ -1,7 +1,7 @@
 package com.example.newstest3.dao;
 
 import com.example.newstest3.TwitterController.TwitterService;
-import com.example.newstest3.entity.User;
+import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,15 +31,15 @@ public class UserService  {
 
 
     public void createUser() {
-        User newUser = new User(111L, "Adam", "adamname", "this is description");
-        userRepository.save(newUser);
-        newUser = new User(112L, "qAdam", "adamname", "this is description");
-        userRepository.save(newUser);
-        newUser = new User(113L, "wAdam", "adamname", "this is description");
-        userRepository.save(newUser);
+        TwitterUser newTwitterUser = new TwitterUser(111L, "Adam", "adamname", "this is description");
+        userRepository.save(newTwitterUser);
+        newTwitterUser = new TwitterUser(112L, "qAdam", "adamname", "this is description");
+        userRepository.save(newTwitterUser);
+        newTwitterUser = new TwitterUser(113L, "wAdam", "adamname", "this is description");
+        userRepository.save(newTwitterUser);
     }
 
-    public List<User> getUsers() {
+    public List<TwitterUser> getUsers() {
         return new ArrayList<>(userRepository.findAll());
     }
 }

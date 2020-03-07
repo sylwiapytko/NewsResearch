@@ -1,11 +1,11 @@
 package com.example.newstest3.TwitterController;
 
+import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -208,16 +208,16 @@ public class TwitterService {
         return retweetsCount;
     }
 
-    public com.example.newstest3.entity.User printUser(String userName)  {
+    public TwitterUser printUser(String userName)  {
         User user = null;
         try {
             user = twitter.showUser(userName);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        com.example.newstest3.entity.User mojUser = new com.example.newstest3.entity.User();
-        BeanUtils.copyProperties(user, mojUser);
-        //userRepository.save(mojUser);
+        TwitterUser twitterUser = new TwitterUser();
+        BeanUtils.copyProperties(user, twitterUser);
+        //userRepository.save(twitterUser);
 
 
         System.out.println("id "+user.getId());
@@ -243,7 +243,7 @@ public class TwitterService {
             System.out.println("Website : "+urlEntity.getExpandedURL());
             // System.out.println("Website : "+urlEntity.getURL());
         }
-    return  mojUser;
+    return twitterUser;
     }
 
     }

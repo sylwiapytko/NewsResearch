@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class TwitterUser {
     @Id
     @Column(name = "USER_ID", nullable = false, unique = true)
     private long id;
