@@ -50,7 +50,7 @@ public class TwitterService {
                 .collect(Collectors.toList());
     }
 
-    public List<Status> printUserTimeline(Twitter twitter, String userName, Integer pagingPage, Integer pagingCount) throws TwitterException {
+    public List<Status> printUserTimeline(String userName, Integer pagingPage, Integer pagingCount) throws TwitterException {
         Paging paging = new Paging(pagingPage, pagingCount);
         List<Status> statuses = twitter.getUserTimeline(userName,paging);
         for (Status status : statuses) {
