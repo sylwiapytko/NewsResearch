@@ -22,6 +22,7 @@ public class TwitterUserService {
             user = twitter.showUser(userName);
             BeanUtils.copyProperties(user, twitterUser);
             twitterUser.setURLExpanded();
+            twitterUser.setURLTwitter();
         } catch (TwitterException e) {
             e.printStackTrace();
         }

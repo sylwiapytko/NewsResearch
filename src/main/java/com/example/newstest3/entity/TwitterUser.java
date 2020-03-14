@@ -27,6 +27,8 @@ public class TwitterUser {
     private String name;
     private String screenName;
 
+
+    private String URLTwitter;
     private String URL;
     private String URLExpanded;
     private URLEntity URLEntity;
@@ -48,6 +50,9 @@ public class TwitterUser {
     private int favouritesCount;
     private int listedCount;
 
+    public void setURLTwitter() {
+        this.URLTwitter = "https://twitter.com/" + this.getScreenName();
+    }
     public void setURLExpanded() {
         this.URLExpanded = this.URLEntity.getExpandedURL();
     }
