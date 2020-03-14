@@ -1,4 +1,4 @@
-package com.example.newstest3.dao;
+package com.example.newstest3.service;
 
 import com.example.newstest3.TwitterController.TwitterService;
 import com.example.newstest3.TwitterController.TwitterUserService;

@@ -1,7 +1,7 @@
 package com.example.newstest3;
 
 import com.example.newstest3.TwitterController.TwitterService;
-import com.example.newstest3.dao.UserService;
+import com.example.newstest3.service.UserService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
