@@ -6,11 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import twitter4j.URLEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="TWITTER_USER")
@@ -50,6 +49,10 @@ public class TwitterUser {
     private int favouritesCount;
     private int listedCount;
 
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Tweet> tweets;
+
+
     public void setURLTwitter() {
         this.URLTwitter = "https://twitter.com/" + this.getScreenName();
     }
@@ -57,4 +60,20 @@ public class TwitterUser {
         this.URLExpanded = this.URLEntity.getExpandedURL();
     }
 
+    public void addTweet(Tweet tweet) {
+        if (this.tweets == null) {
+            this.tweets = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.tweets.add(tweet);
+        tweet.setTwitterUser(this);
+    }
+    public void addTweets(List<Tweet> tweets) {
+        if (this.tweets == null) {
+            this.tweets = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.tweets.addAll(tweets);
+        tweets.forEach(tweet ->tweet.setTwitterUser(this));
+    }
 }

@@ -8,10 +8,7 @@ import twitter4j.GeoLocation;
 import twitter4j.Place;
 import twitter4j.Status;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -26,9 +23,13 @@ public class Tweet {
     @Column(name = "TWEET_ID", nullable = false, unique = true)
     private long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
+    private TwitterUser twitterUser;
+
     private String twitterUserScreenName;
 
-    @Column(name = "TWEET_TEXT", length  = 300)
+    @Column(name = "TWEET_TEXT", length  = 350)
     private String text;
 
     @Column(name = "TWEET_TEXT_LENGTH")
@@ -53,6 +54,7 @@ public class Tweet {
 
     private int favoriteCount;
     private int retweetCount;
+
 
 
     public void setTwitterUserScreenName(String twitterUserScreenName) {
