@@ -1,6 +1,7 @@
 package com.example.newstest3.dao;
 
 import com.example.newstest3.TwitterController.TwitterService;
+import com.example.newstest3.TwitterController.TwitterUserService;
 import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class UserService  {
     @Autowired
     TwitterService twitterService;
 
+    @Autowired
+    TwitterUserService twitterUserService;
+
 
     public void fetchTwitterUsers(){
         // usersNames.stream().map(s -> twitterService.printUser(s)).forEach(user -> userRepository.save(user));
-        usersNames.stream().map(twitterService::printUser).forEach(userRepository::save);
+        usersNames.stream().map(twitterUserService::fetchTwitterUser).forEach(userRepository::save);
     }
 
 
