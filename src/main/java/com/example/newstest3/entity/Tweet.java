@@ -9,7 +9,9 @@ import twitter4j.Place;
 import twitter4j.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="TWITTER_TWEET")
@@ -55,6 +57,17 @@ public class Tweet {
     private int favoriteCount;
     private int retweetCount;
 
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    private List<TweetTextURL> tweetTextURLS;
+
+    public void addtweetTextURL(TweetTextURL tweetTextURL) {
+        if (this.tweetTextURLS == null) {
+            this.tweetTextURLS = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.tweetTextURLS.add(tweetTextURL);
+        tweetTextURL.setTweet(this);
+    }
 
 
     public void setTwitterUserScreenName(String twitterUserScreenName) {

@@ -50,7 +50,7 @@ public class TwitterUser {
     private int favouritesCount;
     private int listedCount;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "twitterUser")
     private List<Tweet> userTweets;
 
     @OneToOne( cascade = CascadeType.ALL)

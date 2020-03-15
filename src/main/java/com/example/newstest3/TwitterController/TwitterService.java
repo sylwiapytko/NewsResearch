@@ -120,7 +120,7 @@
 //            URLEntity[] urls = status.getURLEntities();
 //            for(URLEntity urlEntity : urls) {
 //                System.out.println("Website : "+urlEntity.getExpandedURL());
-//                System.out.println("Website : "+urlEntity.getURL());
+//                System.out.println("Website : "+urlEntity..getURL());
 //            }
 //        }
 //    }

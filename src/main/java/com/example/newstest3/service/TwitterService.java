@@ -26,8 +26,7 @@ public class TwitterService {
         twitterUserList=userService.fetchTwitterUsersInfo();
         userService.saveTwitterUsersInfo(twitterUserList);
 
-        twitterUserList.forEach(tweetService::fetchTwitterUsersTweets);
-        twitterUserList.forEach(tweetService::saveTwitterUserTweets);
+        twitterUserList.forEach(tweetService::fetchTwitterUserTweets);
 
     }
 }
