@@ -1,6 +1,7 @@
 package com.example.newstest3.TwitterController;
 
 import com.example.newstest3.entity.Tweet;
+import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.TweetRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,8 @@ public class TwitterTweetService {
     private TweetRepository tweetRepository;
 
 
-    public List<Tweet> fetchUserTweets(String userName) {
+    public void fetchUserTweets(TwitterUser twitterUser) {
         List<Status> statuses = new ArrayList<>();
-        List<Tweet> allTweets = new ArrayList<>();
         int pageno = 1;
         while(true) {
             System.out.println("getting tweets");
@@ -34,17 +34,15 @@ public class TwitterTweetService {
             Paging page = new Paging(pageno, 200);
 
             try {
-                statuses.addAll(twitter.getUserTimeline(userName, page));
-                List<Tweet> tweets = new ArrayList<>();
+                statuses.addAll(twitter.getUserTimeline(twitterUser.getName(), page));
+
                 for(Status status: statuses){
                     Tweet tweet = new Tweet();
                     BeanUtils.copyProperties(status,tweet);
-                    tweet.setTwitterUserScreenName(userName);
+                    tweet.setTwitterUserScreenName(twitterUser.getName());
                     tweet.setTextLength();
-                    tweets.add(tweet);
+                    twitterUser.addTweet(tweet);
                 }
-                    tweetRepository.saveAll(tweets);
-                    allTweets.addAll(tweets);
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -59,8 +57,5 @@ public class TwitterTweetService {
                 e.printStackTrace();
             }
         }
-
-
-        return allTweets;
     }
 }

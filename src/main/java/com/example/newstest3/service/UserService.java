@@ -1,8 +1,10 @@
 package com.example.newstest3.service;
 
-import com.example.newstest3.TwitterController.TwitterService;
+
+import com.example.newstest3.TwitterController.TwitterTweetService;
 import com.example.newstest3.TwitterController.TwitterUserService;
 import com.example.newstest3.entity.TwitterUser;
+import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +30,25 @@ public class UserService  {
     TwitterUserService twitterUserService;
 
 
-    public void fetchTwitterUsers(){
+
+    @Autowired
+    private TweetRepository tweetRepository;
+    @Autowired
+    private TwitterTweetService twitterTweetService;
+
+
+    public List<TwitterUser> fetchTwitterUsersInfo(){
+        List<TwitterUser>  twitterUserList= new ArrayList<>();;
         // usersNames.stream().map(s -> twitterService.printUser(s)).forEach(user -> userRepository.save(user));
-        usersNames.stream().map(twitterUserService::fetchTwitterUser).forEach(userRepository::save);
+        usersNames.stream().map(twitterUserService::fetchTwitterUser).forEach(twitterUserList::add);
+        return twitterUserList;
     }
+
+    public void saveTwitterUsersInfo(List<TwitterUser> twitterUsers){
+        userRepository.saveAll(twitterUsers);
+    }
+
+
 
 
 

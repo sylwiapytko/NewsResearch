@@ -44,6 +44,7 @@ public class TwitterUser {
     private boolean verified;
 
     private int statusesCount;
+    private int statusesFetchedCount;
     private int followersCount;
     private int friendsCount; //followingsCount
     private int favouritesCount;
@@ -75,5 +76,9 @@ public class TwitterUser {
         // bi-directional reference
         this.userTweets.addAll(tweets);
         tweets.forEach(tweet ->tweet.setTwitterUser(this));
+    }
+
+    public void setStatusesFetchedCount() {
+        this.statusesFetchedCount = getUserTweets().size();
     }
 }

@@ -1,7 +1,7 @@
 package com.example.newstest3;
 
-import com.example.newstest3.TwitterController.TwitterService;
 import com.example.newstest3.service.TweetService;
+import com.example.newstest3.service.TwitterService;
 import com.example.newstest3.service.UserService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +24,11 @@ import java.text.MessageFormat;
         private  String mojparametr;
 
         @Autowired
-        UserService userService;
-        @Autowired
-        TweetService tweetService;
+        TwitterService twitterService;
 
         @Autowired
         ApplicationArguments applicationArguments;
 
-        @Autowired
-        TwitterService twitterService;
 
         public static void main(String[] args) {
             log.info("STARTING THE APPLICATION");
@@ -46,17 +42,13 @@ import java.text.MessageFormat;
 
 
             String userName = "hildatheseries";
-            userService.fetchTwitterUsers();
-            // userService.getUsers().forEach(user -> log.info(user.toString()));
-            // userService.getUsers().forEach(user -> log.info(user.getURLEntity().getExpandedURL()));
-            //userService.getUsers().forEach(System.out::println);
-            tweetService.fetchUsersTweets();
+            twitterService.fetchTwitterUsersAccounts();
+
 
             for (int i = 0; i < args.length; ++i) {
                 log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
             }
 
-            twitterService.printUserTimeline(userName, 1, 2);
         }
     }
 

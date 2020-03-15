@@ -14,16 +14,19 @@ import java.util.List;
 @Service
 public class TweetService {
 
-    @Value("#{'${usersnames}'.split(',')}")
-    private List<String> usersNames;
 
     @Autowired
     private TweetRepository tweetRepository;
     @Autowired
     private TwitterTweetService twitterTweetService;
 
-    public  void  fetchUsersTweets(){
-        usersNames.stream().forEach(twitterTweetService::fetchUserTweets);
+    public  void  fetchTwitterUsersTweets(TwitterUser twitterUser){
+        twitterTweetService.fetchUserTweets(twitterUser);
+        twitterUser.setStatusesFetchedCount();
+    }
+
+    public void saveTwitterUserTweets(TwitterUser twitterUser){
+        tweetRepository.saveAll(twitterUser.getUserTweets());
     }
 
     public List<Tweet> getUsers() {
