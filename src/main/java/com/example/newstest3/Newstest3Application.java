@@ -50,7 +50,7 @@ import java.text.MessageFormat;
             // userService.getUsers().forEach(user -> log.info(user.toString()));
             // userService.getUsers().forEach(user -> log.info(user.getURLEntity().getExpandedURL()));
             //userService.getUsers().forEach(System.out::println);
-            tweetService.fetchTwitterUsersTweets();
+            tweetService.fetchUsersTweets();
 
             for (int i = 0; i < args.length; ++i) {
                 log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));

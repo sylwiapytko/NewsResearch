@@ -50,7 +50,7 @@ public class TwitterUser {
     private int listedCount;
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Tweet> tweets;
+    private List<Tweet> userTweets;
 
 
     public void setURLTwitter() {
@@ -61,19 +61,19 @@ public class TwitterUser {
     }
 
     public void addTweet(Tweet tweet) {
-        if (this.tweets == null) {
-            this.tweets = new ArrayList<>();
+        if (this.userTweets == null) {
+            this.userTweets = new ArrayList<>();
         }
         // bi-directional reference
-        this.tweets.add(tweet);
+        this.userTweets.add(tweet);
         tweet.setTwitterUser(this);
     }
     public void addTweets(List<Tweet> tweets) {
-        if (this.tweets == null) {
-            this.tweets = new ArrayList<>();
+        if (this.userTweets == null) {
+            this.userTweets = new ArrayList<>();
         }
         // bi-directional reference
-        this.tweets.addAll(tweets);
+        this.userTweets.addAll(tweets);
         tweets.forEach(tweet ->tweet.setTwitterUser(this));
     }
 }

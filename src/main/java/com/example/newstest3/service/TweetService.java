@@ -22,8 +22,8 @@ public class TweetService {
     @Autowired
     private TwitterTweetService twitterTweetService;
 
-    public  void  fetchTwitterUsersTweets(){
-        usersNames.stream().forEach(twitterTweetService::getUserTimelineList);
+    public  void  fetchUsersTweets(){
+        usersNames.stream().forEach(twitterTweetService::fetchUserTweets);
     }
 
     public List<Tweet> getUsers() {

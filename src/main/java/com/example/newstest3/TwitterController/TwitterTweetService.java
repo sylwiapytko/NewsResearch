@@ -24,7 +24,7 @@ public class TwitterTweetService {
     private TweetRepository tweetRepository;
 
 
-    public List<Tweet> getUserTimelineList(String userName) {
+    public List<Tweet> fetchUserTweets(String userName) {
         List<Status> statuses = new ArrayList<>();
         List<Tweet> allTweets = new ArrayList<>();
         int pageno = 1;
