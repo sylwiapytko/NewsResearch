@@ -22,7 +22,7 @@ public class TwitterUser {
     @Column(name = "USER_ID", nullable = false, unique = true)
     private long id;
 
-    @Column(name= "USER_NAME")
+    @Column(name= "USER_NAME", nullable = false, unique = true)
     private String name;
     private String screenName;
 
@@ -52,6 +52,9 @@ public class TwitterUser {
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tweet> userTweets;
+
+    @OneToOne( cascade = CascadeType.ALL)
+    private TwitterUserMetrics twitterUserMetrics;
 
 
     public void setURLTwitter() {
