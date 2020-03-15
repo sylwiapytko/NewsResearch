@@ -3,6 +3,7 @@ package com.example.newstest3.TwitterController;
 import com.example.newstest3.entity.Tweet;
 import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.TweetRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
-
+@Log
 @Service
 public class TwitterTweetService {
 
@@ -34,12 +35,12 @@ public class TwitterTweetService {
             Paging page = new Paging(pageno, 200);
 
             try {
-                statuses.addAll(twitter.getUserTimeline(twitterUser.getName(), page));
+                statuses.addAll(twitter.getUserTimeline(twitterUser.getScreenName(), page));
 
                 for(Status status: statuses){
                     Tweet tweet = new Tweet();
                     BeanUtils.copyProperties(status,tweet);
-                    tweet.setTwitterUserScreenName(twitterUser.getName());
+                    tweet.setTwitterUserScreenName(twitterUser.getScreenName());
                     tweet.setTextLength();
                     twitterUser.addTweet(tweet);
                 }
