@@ -24,43 +24,59 @@ public class TwitterTweetService {
     Twitter twitter;
     @Autowired
     private TweetRepository tweetRepository;
+    @Autowired
+    SleepService sleepService;
 
 
-    public void fetchUserTweets(TwitterUser twitterUser) {
+    public List<Tweet> fetchUserTweets(TwitterUser twitterUser) {
+        List<Status> statuses = retriveUserStatuses(twitterUser);
+
+        return retriveTweetsfromStatuses(statuses, twitterUser);
+    }
+
+    private List<Status> retriveUserStatuses(TwitterUser twitterUser) {
         List<Status> statuses = new ArrayList<>();
         int pageno = 1;
         while(true) {
-            System.out.println("getting tweets");
             int size = statuses.size(); // actual tweets count we got
-            Paging page = new Paging(pageno, 200);
-            List<Status> statusesNew = new ArrayList<>();
-            try {
-                statusesNew.addAll(twitter.getUserTimeline(twitterUser.getScreenName(), page));
 
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
+            statuses.addAll(retriveUserStatusesPage(pageno, twitterUser));
 
-            statuses.addAll(statusesNew);
             System.out.println("total got : " + statuses.size());
             if (statuses.size() == size) { break; } // we did not get new tweets so we have done the job
-            else{
-                for(Status status: statusesNew){
-                    Tweet tweet = new Tweet();
-                    BeanUtils.copyProperties(status,tweet);
-                    tweet.setTwitterUserScreenName(twitterUser.getScreenName());
-                    tweet.setTextLength();
-                    twitterUser.addTweet(tweet);
-                }
 
-                pageno++;
-            }
+            pageno++;
+            sleepService.sleepForTime(1000);
 
-            try {
-                sleep(1000); // 900 rqt / 15 mn <=> 1 rqt/s
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
+        return statuses;
+    }
+
+
+    private List<Status> retriveUserStatusesPage(int pageno, TwitterUser twitterUser) {
+        Paging page = new Paging(pageno, 200);
+        try {
+            return twitter.getUserTimeline(twitterUser.getScreenName(), page);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Tweet> retriveTweetsfromStatuses(List<Status> statusesNew, TwitterUser twitterUser) {
+        List<Tweet> tweets = new ArrayList<>();
+        for(Status status: statusesNew){
+            tweets.add(retriveTweetfromStatus(status, twitterUser));
+        }
+        twitterUser.addTweets(tweets);
+        return tweets;
+    }
+
+    private Tweet retriveTweetfromStatus(Status status, TwitterUser twitterUser) {
+        Tweet tweet = new Tweet();
+        BeanUtils.copyProperties(status,tweet);
+        tweet.setTwitterUserScreenName(twitterUser.getScreenName());
+        tweet.setTextLength();
+        return tweet;
     }
 }
