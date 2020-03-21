@@ -38,16 +38,16 @@ public class TwitterTweetService {
         List<Status> statuses = new ArrayList<>();
         int pageno = 1;
         while(true) {
-            int size = statuses.size(); // actual tweets count we got
 
-            statuses.addAll(retriveUserStatusesPage(pageno, twitterUser));
+            List<Status> statusesNew = retriveUserStatusesPage(pageno, twitterUser);
+            if(statusesNew.isEmpty()){ break;}
+            else{
+                statuses.addAll(statusesNew);
+                System.out.println("total got : " + statuses.size());
 
-            System.out.println("total got : " + statuses.size());
-            if (statuses.size() == size) { break; } // we did not get new tweets so we have done the job
-
-            pageno++;
-            sleepService.sleepForTime(1000);
-
+                pageno++;
+                sleepService.sleepForTime(1000);
+            }
         }
         return statuses;
     }
