@@ -33,24 +33,28 @@ public class TwitterTweetService {
             System.out.println("getting tweets");
             int size = statuses.size(); // actual tweets count we got
             Paging page = new Paging(pageno, 200);
-
+            List<Status> statusesNew = new ArrayList<>();
             try {
-                statuses.addAll(twitter.getUserTimeline(twitterUser.getScreenName(), page));
+                statusesNew.addAll(twitter.getUserTimeline(twitterUser.getScreenName(), page));
 
-                for(Status status: statuses){
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            statuses.addAll(statusesNew);
+            System.out.println("total got : " + statuses.size());
+            if (statuses.size() == size) { break; } // we did not get new tweets so we have done the job
+            else{
+                for(Status status: statusesNew){
                     Tweet tweet = new Tweet();
                     BeanUtils.copyProperties(status,tweet);
                     tweet.setTwitterUserScreenName(twitterUser.getScreenName());
                     tweet.setTextLength();
                     twitterUser.addTweet(tweet);
                 }
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
 
-            System.out.println("total got : " + statuses.size());
-            if (statuses.size() == size) { break; } // we did not get new tweets so we have done the job
-            pageno++;
+                pageno++;
+            }
 
             try {
                 sleep(1000); // 900 rqt / 15 mn <=> 1 rqt/s

@@ -28,7 +28,6 @@ public class TweetService {
     public void fetchTwitterUserTweets(TwitterUser twitterUser){
         twitterTweetService.fetchUserTweets(twitterUser);
         twitterUser.setStatusesFetchedCount();
-        saveTwitterUserTweets(twitterUser);
         twitterUser.getUserTweets().forEach(tweetTextURLService::fetchTweetTextURLS);
     }
 

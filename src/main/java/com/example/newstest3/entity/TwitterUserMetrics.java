@@ -18,7 +18,7 @@ public class TwitterUserMetrics {
     @Column(name = "USER_ID", nullable = false, unique = true)
     private long id;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "USER_NAME")
     private TwitterUser twitterUser;
 

@@ -22,7 +22,6 @@ public class TweetTextURLService {
     public void fetchTweetTextURLS(Tweet tweet){
         //TODO: double urls are saved do DB
         twitterTweetTextURLService.fetchURLfromTweet(tweet);
-        saveTweetTextURLS(tweet);
     }
 
     public void saveTweetTextURLS(Tweet tweet){

@@ -1,9 +1,6 @@
 package com.example.newstest3.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import twitter4j.GeoLocation;
 import twitter4j.Place;
 import twitter4j.Status;
@@ -25,6 +22,7 @@ public class Tweet {
     @Column(name = "TWEET_ID", nullable = false, unique = true)
     private long id;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="USER_ID")
     private TwitterUser twitterUser;

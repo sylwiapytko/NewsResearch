@@ -44,8 +44,11 @@ public class UserService  {
         return twitterUserList;
     }
 
-    public void saveTwitterUsersInfo(List<TwitterUser> twitterUsers){
-        userRepository.saveAll(twitterUsers);
+    public TwitterUser saveTwitterUserInfo(TwitterUser twitterUser){
+        return userRepository.save(twitterUser);
+    }
+    public List<TwitterUser> saveTwitterUsersInfo(List<TwitterUser> twitterUsers){
+         return userRepository.saveAll(twitterUsers);
     }
 
 

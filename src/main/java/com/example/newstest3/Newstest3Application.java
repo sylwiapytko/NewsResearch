@@ -37,7 +37,7 @@ import java.text.MessageFormat;
         }
 
         @Override
-        public void run(String... args) throws TwitterException {
+        public void run(String... args) {
             log.info("EXECUTING : command line runner");
 
 

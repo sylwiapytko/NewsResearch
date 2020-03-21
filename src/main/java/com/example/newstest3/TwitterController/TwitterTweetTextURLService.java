@@ -9,7 +9,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,7 +17,7 @@ public class TwitterTweetTextURLService {
     @Autowired
     Twitter twitter;
 
-    public void fetchURLfromTweet(Tweet tweet){
+    public List<TweetTextURL> fetchURLfromTweet(Tweet tweet){
         try {
             Status status  = twitter.showStatus(tweet.getId());
             URLEntity[] urls = status.getURLEntities();
@@ -32,5 +31,6 @@ public class TwitterTweetTextURLService {
         } catch (TwitterException e) {
             e.printStackTrace();
         }
+        return tweet.getTweetTextURLS();
     }
 }

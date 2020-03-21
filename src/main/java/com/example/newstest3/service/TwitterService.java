@@ -22,11 +22,10 @@ public class TwitterService {
     TweetService tweetService;
 
     public void fetchTwitterUsersAccounts(){
-        List<TwitterUser> twitterUserList = new ArrayList<>();
-        twitterUserList=userService.fetchTwitterUsersInfo();
-        userService.saveTwitterUsersInfo(twitterUserList);
-
+        List<TwitterUser> twitterUserList = userService.fetchTwitterUsersInfo();
         twitterUserList.forEach(tweetService::fetchTwitterUserTweets);
+
+        userService.saveTwitterUsersInfo(twitterUserList);
 
     }
 }
