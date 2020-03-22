@@ -46,9 +46,14 @@ public class TwitterUser {
     private int statusesCount;
     private int statusesFetchedCount;
     private int followersCount;
+    private int followersFetchedCount;
+
     private int friendsCount; //followingsCount
     private int favouritesCount;
     private int listedCount;
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "twitterUser")
+    private List<Follower> userFollowers;
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "twitterUser")
     private List<Tweet> userTweets;
@@ -60,10 +65,10 @@ public class TwitterUser {
     public void setURLTwitter() {
         this.URLTwitter = "https://twitter.com/" + this.getScreenName();
     }
+
     public void setURLExpanded() {
         this.URLExpanded = this.URLEntity.getExpandedURL();
     }
-
     public void addTweet(Tweet tweet) {
         if (this.userTweets == null) {
             this.userTweets = new ArrayList<>();
@@ -72,6 +77,7 @@ public class TwitterUser {
         this.userTweets.add(tweet);
         tweet.setTwitterUser(this);
     }
+
     public void addTweets(List<Tweet> tweets) {
         if (this.userTweets == null) {
             this.userTweets = new ArrayList<>();
@@ -80,8 +86,19 @@ public class TwitterUser {
         this.userTweets.addAll(tweets);
         tweets.forEach(tweet ->tweet.setTwitterUser(this));
     }
-
     public void setStatusesFetchedCount() {
         this.statusesFetchedCount = getUserTweets().size();
+    }
+
+    public void setFollowersFetchedCount() {
+        this.followersFetchedCount = getUserFollowers().size();
+    }
+    public void addFollowers(List<Follower> followers) {
+        if (this.userFollowers == null) {
+            this.userFollowers = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.userFollowers.addAll(followers);
+        followers.forEach(follower ->follower.setTwitterUser(this));
     }
 }

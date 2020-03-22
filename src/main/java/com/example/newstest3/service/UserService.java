@@ -25,6 +25,9 @@ public class UserService  {
 
     @Autowired
     TwitterService twitterService;
+    
+    @Autowired
+    TweetService tweetService;
 
     @Autowired
     TwitterUserService twitterUserService;
@@ -44,9 +47,19 @@ public class UserService  {
         return twitterUserList;
     }
 
+    public void fetchTwitterUsersData(TwitterUser twitterUser) {
+        twitterUser = fetchTwitterUserFollowers(twitterUser);
+        tweetService.fetchTwitterUserTweets(twitterUser);
+    }
+
+    private TwitterUser fetchTwitterUserFollowers(TwitterUser twitterUser) {
+        return  TwitterUser.builder().build();
+    }
+
     public TwitterUser saveTwitterUserInfo(TwitterUser twitterUser){
         return userRepository.save(twitterUser);
     }
+
     public List<TwitterUser> saveTwitterUsersInfo(List<TwitterUser> twitterUsers){
          return userRepository.saveAll(twitterUsers);
     }

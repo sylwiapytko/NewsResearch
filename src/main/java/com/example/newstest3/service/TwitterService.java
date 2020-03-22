@@ -23,7 +23,8 @@ public class TwitterService {
 
     public void fetchTwitterUsersAccounts(){
         List<TwitterUser> twitterUserList = userService.fetchTwitterUsersInfo();
-        twitterUserList.forEach(tweetService::fetchTwitterUserTweets);
+        twitterUserList.forEach(userService::fetchTwitterUsersData);
+
 
         userService.saveTwitterUsersInfo(twitterUserList);
 

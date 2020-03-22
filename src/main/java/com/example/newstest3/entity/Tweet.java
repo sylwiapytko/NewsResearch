@@ -41,8 +41,8 @@ public class Tweet {
     private Place place;
     private String Lang;
 
-    private long replyToStatusId;
-    private long replyToUserId;
+    private long inReplyToStatusId;
+    private long inReplyToUserId;
     private Status retweetedStatus;
 
     private long quotedStatusId;
