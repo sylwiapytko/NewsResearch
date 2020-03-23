@@ -3,6 +3,7 @@ package com.example.newstest3.service;
 
 import com.example.newstest3.TwitterController.TwitterTweetService;
 import com.example.newstest3.TwitterController.TwitterUserService;
+import com.example.newstest3.entity.Follower;
 import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.repository.UserRepository;
@@ -48,12 +49,12 @@ public class UserService  {
     }
 
     public void fetchTwitterUsersData(TwitterUser twitterUser) {
-        twitterUser = fetchTwitterUserFollowers(twitterUser);
+        fetchTwitterUserFollowers(twitterUser);
         tweetService.fetchTwitterUserTweets(twitterUser);
     }
 
-    private TwitterUser fetchTwitterUserFollowers(TwitterUser twitterUser) {
-        return  TwitterUser.builder().build();
+    private List<Follower> fetchTwitterUserFollowers(TwitterUser twitterUser) {
+        return  twitterUserService.fetchUserFollowers(twitterUser);
     }
 
     public TwitterUser saveTwitterUserInfo(TwitterUser twitterUser){

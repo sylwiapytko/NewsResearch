@@ -1,9 +1,9 @@
 package com.example.newstest3.TwitterController;
 
+import com.example.newstest3.entity.Follower;
 import com.example.newstest3.entity.TwitterUser;
-import com.example.newstest3.repository.FollowerRepository;
-import com.example.newstest3.repository.UserRepository;
 import com.example.newstest3.service.FollowerService;
+import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,12 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Log
 @Service
 public class TwitterUserService {
 
@@ -26,7 +27,10 @@ public class TwitterUserService {
     @Autowired
     FollowerService followerService;
 
-    public TwitterUser fetchTwitterUser(String userName)  {
+    @Autowired
+    SleepService sleepService;
+
+    public TwitterUser fetchTwitterUser(String userName) {
         User user = null;
         TwitterUser twitterUser = new TwitterUser();
         try {
@@ -35,25 +39,38 @@ public class TwitterUserService {
             twitterUser.setURLExpanded();
             twitterUser.setURLTwitter();
         } catch (TwitterException e) {
-            e.printStackTrace();
+            sleepService.printErrorAndSleepSec(e, 60 * 5);
         }
 
         //TODO: if user doesnt exist then app is saving empty row with id =0
         return twitterUser;
     }
 
-        public List<Long> getFollowersIDList ( TwitterUser twitterUser) throws TwitterException {
-        long cursor =-1L;
-        IDs ids;
-        List<Long> followersIDList = new ArrayList<>();
-        do {
-            ids = twitter.getFollowersIDs(twitterUser.getId(), cursor);
-            //Arrays.asList(ids.getIDs()).stream().map(followerService::createFollowerbyId)
-            //twitterUser.addFollowers();
-            for(long userID : ids.getIDs()){
-                followersIDList.add(userID);
-            }
-        } while((cursor = ids.getNextCursor())!=0 );
-        return  followersIDList;
+    public List<Follower> fetchUserFollowers(TwitterUser twitterUser) {//limit 900 na 15 min.
+        long cursor = -1L;
+        IDs ids = null;
+        List<Follower> userFollowers = new ArrayList<>();
+        try {
+            do {
+                ids = twitter.getFollowersIDs(twitterUser.getId(), cursor);
+                userFollowers.addAll(retriveFollowersfromIDs(ids));
+            } while ((cursor = ids.getNextCursor()) != 0);
+        } catch (TwitterException e) {
+            log.info("IM ALIVE");
+            e.printStackTrace();
+            sleepService.sleepForTime(1000 * 60 * 5); //every 5 minutes give update
+        }
+
+        twitterUser.setFollowersFetchedCount(userFollowers.size());
+        twitterUser.addUserFollowers(userFollowers); //TODO this can be in upper method
+        
+        return userFollowers;
+    }
+
+    private List<Follower> retriveFollowersfromIDs(IDs ids) {
+        return Arrays.stream(ids.getIDs())
+                .boxed()
+                .map(followerService::createFollowerbyId)
+                .collect(Collectors.toList());
     }
 }

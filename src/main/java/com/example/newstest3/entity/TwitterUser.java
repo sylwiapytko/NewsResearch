@@ -93,7 +93,7 @@ public class TwitterUser {
     public void setFollowersFetchedCount() {
         this.followersFetchedCount = getUserFollowers().size();
     }
-    public void addFollowers(List<Follower> followers) {
+    public void addUserFollowers(List<Follower> followers) {
         if (this.userFollowers == null) {
             this.userFollowers = new ArrayList<>();
         }

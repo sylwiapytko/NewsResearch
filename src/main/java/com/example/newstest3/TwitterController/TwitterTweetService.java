@@ -46,7 +46,7 @@ public class TwitterTweetService {
                 System.out.println("total got : " + statuses.size());
 
                 pageno++;
-                sleepService.sleepForTime(1000);
+                //sleepService.sleepForTime(1000);
             }
         }
         return statuses;
@@ -58,7 +58,7 @@ public class TwitterTweetService {
         try {
             return twitter.getUserTimeline(twitterUser.getScreenName(), page);
         } catch (TwitterException e) {
-            e.printStackTrace();
+            sleepService.printErrorAndSleepSec(e, 60 * 5);
             return null;
         }
     }

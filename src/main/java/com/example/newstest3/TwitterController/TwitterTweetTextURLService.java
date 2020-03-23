@@ -16,6 +16,8 @@ public class TwitterTweetTextURLService {
 
     @Autowired
     Twitter twitter;
+    @Autowired
+    SleepService sleepService;
 
     public List<TweetTextURL> fetchURLfromTweet(Tweet tweet){
         try {
@@ -29,7 +31,8 @@ public class TwitterTweetTextURLService {
                 tweet.addtweetTextURL(tweetTextURL);
             }
         } catch (TwitterException e) {
-            e.printStackTrace();
+            //check if sleep neeed here
+            sleepService.printErrorAndSleepSec(e, 60 * 5);
         }
         return tweet.getTweetTextURLS();
     }
