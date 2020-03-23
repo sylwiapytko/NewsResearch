@@ -90,9 +90,6 @@ public class TwitterUser {
         this.statusesFetchedCount = getUserTweets().size();
     }
 
-    public void setFollowersFetchedCount() {
-        this.followersFetchedCount = getUserFollowers().size();
-    }
     public void addUserFollowers(List<Follower> followers) {
         if (this.userFollowers == null) {
             this.userFollowers = new ArrayList<>();
@@ -100,5 +97,10 @@ public class TwitterUser {
         // bi-directional reference
         this.userFollowers.addAll(followers);
         followers.forEach(follower ->follower.setTwitterUser(this));
+        setFollowersFetchedCount();
+    }
+
+    public void setFollowersFetchedCount() {
+        this.followersFetchedCount = getUserFollowers().size();
     }
 }

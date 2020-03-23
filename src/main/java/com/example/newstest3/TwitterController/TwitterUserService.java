@@ -39,7 +39,7 @@ public class TwitterUserService {
             twitterUser.setURLExpanded();
             twitterUser.setURLTwitter();
         } catch (TwitterException e) {
-            sleepService.printErrorAndSleepSec(e, 60 * 5);
+            sleepService.printErrorAndSleepSec(e, 60);
         }
 
         //TODO: if user doesnt exist then app is saving empty row with id =0
@@ -47,24 +47,32 @@ public class TwitterUserService {
     }
 
     public List<Follower> fetchUserFollowers(TwitterUser twitterUser) {//limit 900 na 15 min.
+
+        twitterUser.addUserFollowers(retriveFollowersIDs(twitterUser)); //TODO this can be in upper method
+
+        return twitterUser.getUserFollowers();
+    }
+
+    private List<Follower> retriveFollowersIDs(TwitterUser twitterUser) {
         long cursor = -1L;
         IDs ids = null;
         List<Follower> userFollowers = new ArrayList<>();
-        try {
+
             do {
-                ids = twitter.getFollowersIDs(twitterUser.getId(), cursor);
+                ids = retriveFollowersIDsbyCoursor( twitterUser, cursor);
                 userFollowers.addAll(retriveFollowersfromIDs(ids));
             } while ((cursor = ids.getNextCursor()) != 0);
-        } catch (TwitterException e) {
-            log.info("IM ALIVE");
-            e.printStackTrace();
-            sleepService.sleepForTime(1000 * 60 * 5); //every 5 minutes give update
-        }
 
-        twitterUser.setFollowersFetchedCount(userFollowers.size());
-        twitterUser.addUserFollowers(userFollowers); //TODO this can be in upper method
-        
         return userFollowers;
+    }
+
+    private IDs retriveFollowersIDsbyCoursor(TwitterUser twitterUser, long cursor) {
+        try {
+            return twitter.getFollowersIDs(twitterUser.getId(), cursor);
+        } catch (TwitterException e) {
+            sleepService.printErrorAndSleepSec(e, 60 * 5);
+            return null;
+        }
     }
 
     private List<Follower> retriveFollowersfromIDs(IDs ids) {
