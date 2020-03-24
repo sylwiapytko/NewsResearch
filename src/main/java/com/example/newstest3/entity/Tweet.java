@@ -61,6 +61,8 @@ public class Tweet {
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<TweetTextURL> tweetTextURLS;
 
+    private int tweetTextURLSFetchedRetweetsCount;
+
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<Retweeter> tweetRetweeters;
 
@@ -71,15 +73,20 @@ public class Tweet {
         // bi-directional reference
         this.tweetTextURLS.add(tweetTextURL);
         tweetTextURL.setTweet(this);
+        setTweetTextURLSFetchedRetweetsCount();
     }
 
-    public void addtweetRetweeter(Retweeter retweeter) {
+    public void setTweetTextURLSFetchedRetweetsCount() {
+        this.tweetTextURLSFetchedRetweetsCount = this.getTweetTextURLS().size();
+    }
+
+    public void addtweetRetweeter(List<Retweeter> retweeter) {
         if (this.tweetRetweeters == null) {
             this.tweetRetweeters = new ArrayList<>();
         }
         // bi-directional reference
-        this.tweetRetweeters.add(retweeter);
-        retweeter.setTweet(this);
+        this.tweetRetweeters.addAll(retweeter);
+        tweetRetweeters.forEach(tweet ->tweet.setTweet(this));
         setRetweetedFetchedRetweetersCount();
     }
 

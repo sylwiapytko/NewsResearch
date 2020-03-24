@@ -1,5 +1,7 @@
 package com.example.newstest3.service;
 
+import com.example.newstest3.TwitterController.TwitterRetweetService;
+import com.example.newstest3.TwitterController.TwitterRetweeterService;
 import com.example.newstest3.TwitterController.TwitterTweetService;
 import com.example.newstest3.entity.Tweet;
 import com.example.newstest3.entity.TwitterUser;
@@ -20,13 +22,26 @@ public class TweetService {
     @Autowired
     private TwitterTweetService twitterTweetService;
     @Autowired
+    private TwitterRetweetService twitterRetweetService;
+    @Autowired
+    private TwitterRetweeterService twitterRetweeterService;
+    @Autowired
     private TweetTextURLService tweetTextURLService;
 
     public List<Tweet> fetchTwitterUserTweets(TwitterUser twitterUser){
         twitterTweetService.fetchUserTweets(twitterUser);
         twitterUser.setStatusesFetchedCount();
-        twitterUser.getUserTweets().forEach(tweetTextURLService::fetchTweetTextURLS);
-        return twitterUser.getUserTweets();
+        twitterUser.getUserTweets().forEach(this::fetchTweetInfo);
+
+
+     return twitterUser.getUserTweets();
+
+
+    }
+
+    private void fetchTweetInfo(Tweet tweet) {
+        tweetTextURLService.fetchTweetTextURLS(tweet);
+        twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
     }
 
     public List<Tweet> saveTwitterUserTweets(TwitterUser twitterUser){

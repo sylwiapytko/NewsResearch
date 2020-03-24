@@ -18,11 +18,6 @@ public class Retweeter {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="USER_ID")
-    private TwitterUser twitterUser;
-
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TWEET_ID")
     private Tweet tweet;
 
