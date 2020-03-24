@@ -32,7 +32,7 @@ public class TwitterTweetTextURLService {
             }
         } catch (TwitterException e) {
             //check if sleep neeed here
-            sleepService.printErrorAndSleepSec(e, 60 * 5);
+            sleepService.printErrorAndSleepSec(e, 1);
         }
         return tweet.getTweetTextURLS();
     }

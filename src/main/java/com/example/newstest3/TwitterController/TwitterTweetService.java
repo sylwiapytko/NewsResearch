@@ -43,7 +43,7 @@ public class TwitterTweetService {
             if(statusesNew.isEmpty()){ break;}
             else{
                 statuses.addAll(statusesNew);
-                System.out.println("total got : " + statuses.size());
+                System.out.println("tweets : " + statuses.size());
 
                 pageno++;
                 //sleepService.sleepForTime(1000);

@@ -40,7 +40,7 @@ public class TweetService {
     }
 
     private void fetchTweetInfo(Tweet tweet) {
-        tweetTextURLService.fetchTweetTextURLS(tweet);
+        tweetTextURLService.fetchTweetTextURLS(tweet); // is fetching status one more time- do something about it.
         twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
     }
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Retweeter {
 
     @Id
-    @Column(name = "FOLLOWER_ID", nullable = false)
+    @Column(name = "RETWEETER_ID", nullable = false)
     private long retweeterId;
 
 

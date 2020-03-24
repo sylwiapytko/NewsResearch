@@ -28,6 +28,8 @@ public class TwitterRetweeterService {
 
     public List<Retweeter> fetchTweetRetweeters(Tweet tweet) {
         tweet.addtweetRetweeter(retriveTweetRetweeters(tweet));
+
+        System.out.println("retweetersIDs for tweet: "+ tweet.getId() +" = " + tweet.getTweetRetweeters().size());
         return  tweet.getTweetRetweeters();
     }
     public List<Retweeter> retriveTweetRetweeters(Tweet tweet) { //max 75 tweetow!
@@ -37,6 +39,7 @@ public class TwitterRetweeterService {
         do {
             ids = retriveFollowersIDsbyCoursor( tweet,   cursor);
             retweetersIDs.addAll(retriveFollowersfromIDs(ids));
+
         } while((cursor = ids.getNextCursor())!=0 );
                 
         return  retweetersIDs;
@@ -46,7 +49,7 @@ public class TwitterRetweeterService {
         try {
             return twitter.getRetweeterIds(tweet.getId(), 75,  cursor);
         } catch (TwitterException e) {
-            sleepService.printErrorAndSleepSec(e, 60);
+            sleepService.printErrorAndSleepSec(e, 1);
             return  null;
         }
     }
