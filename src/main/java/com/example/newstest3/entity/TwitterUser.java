@@ -58,6 +58,9 @@ public class TwitterUser {
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "twitterUser")
     private List<Tweet> userTweets;
 
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "twitterUser")
+    private List<Retweeter> userRetweeter;
+
     @OneToOne( cascade = CascadeType.ALL)
     private TwitterUserMetrics twitterUserMetrics;
 

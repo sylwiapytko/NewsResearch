@@ -11,6 +11,6 @@ public class FollowerService {
     private FollowerRepository followerRepository;
 
     public Follower createFollowerbyId(long followerId){
-        return new Follower().builder().id(followerId).build();
+        return new Follower().builder().followerId(followerId).build();
     }
 }

@@ -54,9 +54,15 @@ public class Tweet {
 
     private int favoriteCount;
     private int retweetCount;
+    private int retweetedFetchedRetweetsCount;
+
+    private int retweetedFetchedRetweetersCount;
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<TweetTextURL> tweetTextURLS;
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    private List<Retweeter> tweetRetweeters;
 
     public void addtweetTextURL(TweetTextURL tweetTextURL) {
         if (this.tweetTextURLS == null) {
@@ -67,6 +73,23 @@ public class Tweet {
         tweetTextURL.setTweet(this);
     }
 
+    public void addtweetRetweeter(Retweeter retweeter) {
+        if (this.tweetRetweeters == null) {
+            this.tweetRetweeters = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.tweetRetweeters.add(retweeter);
+        retweeter.setTweet(this);
+        setRetweetedFetchedRetweetersCount();
+    }
+
+    public void setRetweetedFetchedRetweetersCount() {
+        this.retweetedFetchedRetweetersCount = tweetRetweeters.size();
+    }
+
+    public void setRetweetedFetchedRetweetsCount() {
+        this.retweetedFetchedRetweetsCount = retweetedFetchedRetweetsCount;
+    }
 
     public void setTwitterUserScreenName(String twitterUserScreenName) {
         this.twitterUserScreenName = twitterUserScreenName;
