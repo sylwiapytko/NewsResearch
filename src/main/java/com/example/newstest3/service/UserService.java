@@ -1,11 +1,9 @@
 package com.example.newstest3.service;
 
 
-import com.example.newstest3.TwitterController.TwitterTweetService;
 import com.example.newstest3.TwitterController.TwitterUserService;
 import com.example.newstest3.entity.Follower;
 import com.example.newstest3.entity.TwitterUser;
-import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,12 +31,6 @@ public class UserService  {
     @Autowired
     TwitterUserService twitterUserService;
 
-
-
-    @Autowired
-    private TweetRepository tweetRepository;
-    @Autowired
-    private TwitterTweetService twitterTweetService;
 
 
     public List<TwitterUser> fetchTwitterUsersInfo(){

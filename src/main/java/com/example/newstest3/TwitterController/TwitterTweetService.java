@@ -2,7 +2,6 @@ package com.example.newstest3.TwitterController;
 
 import com.example.newstest3.entity.Tweet;
 import com.example.newstest3.entity.TwitterUser;
-import com.example.newstest3.repository.TweetRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import twitter4j.TwitterException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 @Log
 @Service
 public class TwitterTweetService {

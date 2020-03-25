@@ -47,7 +47,7 @@ public class TweetService {
          return tweetRepository.saveAll(twitterUser.getUserTweets());
     }
 
-    public List<Tweet> getUsers() {
+    public List<Tweet> getTweets() {
         return new ArrayList<>(tweetRepository.findAll());
     }
 }

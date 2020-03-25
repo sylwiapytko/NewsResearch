@@ -1,6 +1,5 @@
 package com.example.newstest3.TwitterController;
 
-import com.example.newstest3.entity.Tweet;
 import com.example.newstest3.entity.TweetTextURL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
