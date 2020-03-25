@@ -55,30 +55,49 @@ public class Tweet {
     private int favoriteCount;
     private int retweetCount;
     private int retweetedFetchedRetweetsCount;
-
     private int retweetedFetchedRetweetersCount;
+
+    private int tweetTextHashtagsFetchedCount;
+    private int tweetTextURLSFetchedCount;
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    private List<TweetTextHashtag> tweetTextHashtags;
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<TweetTextURL> tweetTextURLS;
 
-    private int tweetTextURLSFetchedRetweetsCount;
-
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<Retweeter> tweetRetweeters;
 
-    public void addtweetTextURL(TweetTextURL tweetTextURL) {
+
+    public void addtweetTextHashtags(List<TweetTextHashtag> tweetTextHashtags) {
+        if (this.tweetTextHashtags == null) {
+            this.tweetTextHashtags = new ArrayList<>();
+        }
+        // bi-directional reference
+        this.tweetTextHashtags.addAll(tweetTextHashtags);
+        tweetTextHashtags.forEach(tweet ->tweet.setTweet(this));
+        setTweetTextHashtagsFetchedCount();
+    }
+
+    public void setTweetTextHashtagsFetchedCount() {
+        this.tweetTextHashtagsFetchedCount = this.getTweetTextHashtags().size();
+    }
+
+    public void addtweetTextURL(List<TweetTextURL> tweetTextURLs) {
         if (this.tweetTextURLS == null) {
             this.tweetTextURLS = new ArrayList<>();
         }
         // bi-directional reference
-        this.tweetTextURLS.add(tweetTextURL);
-        tweetTextURL.setTweet(this);
-        setTweetTextURLSFetchedRetweetsCount();
+        this.tweetTextURLS.addAll(tweetTextURLs);
+        tweetTextURLs.forEach(tweet ->tweet.setTweet(this));
+        setTweetTextURLSFetchedCount();
     }
 
-    public void setTweetTextURLSFetchedRetweetsCount() {
-        this.tweetTextURLSFetchedRetweetsCount = this.getTweetTextURLS().size();
+    public void setTweetTextURLSFetchedCount() {
+        this.tweetTextURLSFetchedCount = this.getTweetTextURLS().size();
     }
+
 
     public void addtweetRetweeter(List<Retweeter> retweeter) {
         if (this.tweetRetweeters == null) {

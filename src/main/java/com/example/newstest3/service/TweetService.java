@@ -25,8 +25,7 @@ public class TweetService {
     private TwitterRetweetService twitterRetweetService;
     @Autowired
     private TwitterRetweeterService twitterRetweeterService;
-    @Autowired
-    private TweetTextURLService tweetTextURLService;
+
 
     public List<Tweet> fetchTwitterUserTweets(TwitterUser twitterUser){
         twitterTweetService.fetchUserTweets(twitterUser);
@@ -35,12 +34,9 @@ public class TweetService {
 
 
      return twitterUser.getUserTweets();
-
-
     }
 
     private void fetchTweetInfo(Tweet tweet) {
-        tweetTextURLService.fetchTweetTextURLS(tweet); // is fetching status one more time- do something about it.
         twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
     }
 

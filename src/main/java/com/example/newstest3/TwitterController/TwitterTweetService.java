@@ -22,10 +22,15 @@ public class TwitterTweetService {
 
     @Autowired
     Twitter twitter;
-    @Autowired
-    private TweetRepository tweetRepository;
+
     @Autowired
     SleepService sleepService;
+
+    @Autowired
+    TwitterTweetTextHashtagService twitterTweetTextHashtagService;
+
+    @Autowired
+    TwitterTweetTextURLService twitterTweetTextURLService;
 
 
     public List<Tweet> fetchUserTweets(TwitterUser twitterUser) {
@@ -76,7 +81,15 @@ public class TwitterTweetService {
         Tweet tweet = new Tweet();
         BeanUtils.copyProperties(status,tweet);
         tweet.setTwitterUserScreenName(twitterUser.getScreenName());
+        retriveTweetExtraInfo(status,tweet);
+
+        return tweet;
+    }
+
+    private Tweet retriveTweetExtraInfo(Status status, Tweet tweet) {
         tweet.setTextLength();
+        tweet.addtweetTextHashtags(twitterTweetTextHashtagService.fetchHashtagsfromTweet(status));
+        tweet.addtweetTextURL(twitterTweetTextURLService.fetchURLfromTweet(status));
         return tweet;
     }
 }
