@@ -30,7 +30,7 @@ public class TwitterTweetService {
 
     public List<Tweet> fetchUserTweets(TwitterUser twitterUser) {
         List<Status> statuses = retriveUserStatuses(twitterUser);
-        twitterUser.addTweets(statusToTweet.retriveTweetsfromStatuses(statuses, twitterUser));
+        twitterUser.addTweets(statusToTweet.retriveTweetsfromStatuses(statuses));
         return twitterUser.getUserTweets();
     }
 

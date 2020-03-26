@@ -30,15 +30,15 @@ public class TweetService {
     public List<Tweet> fetchTwitterUserTweets(TwitterUser twitterUser){
         twitterTweetService.fetchUserTweets(twitterUser);
         twitterUser.setStatusesFetchedCount();
-        twitterUser.getUserTweets().forEach(this::fetchTweetInfo);
+        //twitterUser.getUserTweets().forEach(this::fetchRetweetInfo);
 
 
      return twitterUser.getUserTweets();
     }
 
-    private void fetchTweetInfo(Tweet tweet) {
+    private void fetchRetweetInfo(Tweet tweet) {
         //twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
-        twitterRetweetService.fetchTweetRetweets(tweet);
+        //twitterRetweetService.fetchTweetRetweets(tweet);//max 75 tweetow for 15 min
     }
 
     public List<Tweet> saveTwitterUserTweets(TwitterUser twitterUser){

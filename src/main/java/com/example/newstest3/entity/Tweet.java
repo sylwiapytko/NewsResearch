@@ -28,7 +28,6 @@ public class Tweet {
     private TwitterUser twitterUser;
 
     private String twitterUserScreenName;
-    private long twitterUserId;
 
     @Column(name = "TWEET_TEXT", length  = 350)
     private String text;

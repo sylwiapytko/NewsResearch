@@ -33,16 +33,18 @@ public class UserService  {
 
 
 
-    public List<TwitterUser> fetchTwitterUsersInfo(){
-        List<TwitterUser>  twitterUserList= new ArrayList<>();;
-        // usersNames.stream().map(s -> twitterService.printUser(s)).forEach(user -> userRepository.save(user));
+    public List<TwitterUser> fetchTwitterAccounts(){
+        List<TwitterUser>  twitterUserList= new ArrayList<>();
         usersNames.stream().map(twitterUserService::fetchTwitterUser).forEach(twitterUserList::add);
+        twitterUserList.forEach(this::fetchTwitterUsersData);
+
         return twitterUserList;
     }
 
     public void fetchTwitterUsersData(TwitterUser twitterUser) {
         fetchTwitterUserFollowers(twitterUser);
         tweetService.fetchTwitterUserTweets(twitterUser);
+        saveTwitterUserInfo(twitterUser);
     }
 
     private List<Follower> fetchTwitterUserFollowers(TwitterUser twitterUser) {

@@ -61,7 +61,7 @@ public class TwitterUserService {
             do {
                 ids = retriveFollowersIDsbyCoursor( twitterUser, cursor);
                 userFollowers.addAll(retriveFollowersfromIDs(ids));
-                System.out.println("tweets : " + userFollowers.size());
+                System.out.println("followers " + userFollowers.size());
 
             } while ((cursor = ids.getNextCursor()) != 0);
 

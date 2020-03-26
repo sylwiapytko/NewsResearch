@@ -27,7 +27,7 @@ public class StatusToTweet {
     TwitterTweetTextURLService twitterTweetTextURLService;
 
 
-    public List<Tweet> retriveTweetsfromStatuses(List<Status> statusesNew, TwitterUser twitterUser) {
+    public List<Tweet> retriveTweetsfromStatuses(List<Status> statusesNew) {
         List<Tweet> tweets = new ArrayList<>();
         for(Status status: statusesNew){
             tweets.add(retriveTweetfromStatus(status));
@@ -39,7 +39,6 @@ public class StatusToTweet {
         Tweet tweet = new Tweet();
         BeanUtils.copyProperties(status,tweet);
         tweet.setTwitterUserScreenName(status.getUser().getScreenName());
-        tweet.setTwitterUserId(status.getUser().getId());
         retriveTweetExtraInfo(status,tweet);
 
         return tweet;
