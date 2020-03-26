@@ -25,16 +25,13 @@ public class TwitterTweetService {
     SleepService sleepService;
 
     @Autowired
-    TwitterTweetTextHashtagService twitterTweetTextHashtagService;
-
-    @Autowired
-    TwitterTweetTextURLService twitterTweetTextURLService;
+    StatusToTweet statusToTweet;
 
 
     public List<Tweet> fetchUserTweets(TwitterUser twitterUser) {
         List<Status> statuses = retriveUserStatuses(twitterUser);
-
-        return retriveTweetsfromStatuses(statuses, twitterUser);
+        twitterUser.addTweets(statusToTweet.retriveTweetsfromStatuses(statuses, twitterUser));
+        return twitterUser.getUserTweets();
     }
 
     private List<Status> retriveUserStatuses(TwitterUser twitterUser) {
@@ -66,28 +63,4 @@ public class TwitterTweetService {
         }
     }
 
-    private List<Tweet> retriveTweetsfromStatuses(List<Status> statusesNew, TwitterUser twitterUser) {
-        List<Tweet> tweets = new ArrayList<>();
-        for(Status status: statusesNew){
-            tweets.add(retriveTweetfromStatus(status, twitterUser));
-        }
-        twitterUser.addTweets(tweets);
-        return tweets;
-    }
-
-    private Tweet retriveTweetfromStatus(Status status, TwitterUser twitterUser) {
-        Tweet tweet = new Tweet();
-        BeanUtils.copyProperties(status,tweet);
-        tweet.setTwitterUserScreenName(twitterUser.getScreenName());
-        retriveTweetExtraInfo(status,tweet);
-
-        return tweet;
-    }
-
-    private Tweet retriveTweetExtraInfo(Status status, Tweet tweet) {
-        tweet.setTextLength();
-        tweet.addtweetTextHashtags(twitterTweetTextHashtagService.fetchHashtagsfromTweet(status));
-        tweet.addtweetTextURL(twitterTweetTextURLService.fetchURLfromTweet(status));
-        return tweet;
-    }
 }

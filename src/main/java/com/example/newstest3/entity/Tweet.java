@@ -28,6 +28,7 @@ public class Tweet {
     private TwitterUser twitterUser;
 
     private String twitterUserScreenName;
+    private long twitterUserId;
 
     @Column(name = "TWEET_TEXT", length  = 350)
     private String text;
@@ -69,6 +70,12 @@ public class Tweet {
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
     private List<Retweeter> tweetRetweeters;
 
+    @ManyToOne
+    private Tweet tweetParent;
+
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweetParent")
+    private List<Tweet> tweetRetweets;
+
 
     public void addtweetTextHashtags(List<TweetTextHashtag> tweetTextHashtags) {
         if (this.tweetTextHashtags == null) {
@@ -108,13 +115,22 @@ public class Tweet {
         tweetRetweeters.forEach(tweet ->tweet.setTweet(this));
         setRetweetedFetchedRetweetersCount();
     }
-
     public void setRetweetedFetchedRetweetersCount() {
         this.retweetedFetchedRetweetersCount = tweetRetweeters.size();
     }
 
+    public void addtweetRetweets(List<Tweet> tweetRetweets) {
+        if (this.tweetRetweets == null) {
+            this.tweetRetweets = new ArrayList<>();
+        }
+        this.tweetRetweets.addAll(tweetRetweets);
+        tweetRetweets.forEach(tweet ->tweet.setTweetParent(this));
+        //also retweetedStatus points to parent tweet.
+        setRetweetedFetchedRetweetsCount();
+    }
+
     public void setRetweetedFetchedRetweetsCount() {
-        this.retweetedFetchedRetweetsCount = retweetedFetchedRetweetsCount;
+        this.retweetedFetchedRetweetsCount = this.tweetRetweets.size();
     }
 
     public void setTwitterUserScreenName(String twitterUserScreenName) {

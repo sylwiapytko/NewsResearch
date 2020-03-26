@@ -37,7 +37,8 @@ public class TweetService {
     }
 
     private void fetchTweetInfo(Tweet tweet) {
-        twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
+        //twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
+        twitterRetweetService.fetchTweetRetweets(tweet);
     }
 
     public List<Tweet> saveTwitterUserTweets(TwitterUser twitterUser){
