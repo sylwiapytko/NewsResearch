@@ -26,6 +26,8 @@ public class TwitterUser {
     private String name;
     private String screenName;
 
+    @Enumerated(EnumType.STRING)
+    private AccountClassification accountClassification;
 
     private String URLTwitter;
     private String URL;

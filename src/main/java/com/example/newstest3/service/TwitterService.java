@@ -1,5 +1,6 @@
 package com.example.newstest3.service;
 
+import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.entity.TwitterUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,22 +11,24 @@ import java.util.List;
 @Service
 public class TwitterService {
 
+    @Value("#{'${account.names.test}'.split(',')}")
+    private List<String> accountNamesTest;
 
-    @Value("#{'${usersnames}'.split(',')}")
-    private List<String> usersNames;
+    @Value("#{'${account.names.junk}'.split(',')}")
+    private List<String> accountNamesJunk;
+
+    @Value("#{'${account.names.mainstream}'.split(',')}")
+    private List<String> accountNamesMainstream;
 
     @Autowired
     UserService userService;
 
-    @Autowired
-    TweetService tweetService;
 
     public void fetchTwitterUsersAccounts(){
-        List<TwitterUser> twitterUserList = userService.fetchTwitterAccounts();
-        //twitterUserList.forEach(userService::fetchTwitterUsersData);
+        List<TwitterUser> twitterUserListTest = userService.fetchTwitterAccounts(accountNamesTest, AccountClassification.TEST);
+        List<TwitterUser> twitterUserListJunk = userService.fetchTwitterAccounts(accountNamesJunk, AccountClassification.JUNK);
+        List<TwitterUser> twitterUserListMainstream = userService.fetchTwitterAccounts(accountNamesMainstream, AccountClassification.MAINSTREAM);
 
-
-        //userService.saveTwitterUsersInfo(twitterUserList);
 
     }
 }

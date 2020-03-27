@@ -48,7 +48,7 @@ public class TwitterUserService {
 
     public List<Follower> fetchUserFollowers(TwitterUser twitterUser) {//limit 900 na 15 min.
 
-        twitterUser.addUserFollowers(retriveFollowersIDs(twitterUser)); //TODO this can be in upper method
+        twitterUser.addUserFollowers(retriveFollowersIDs(twitterUser));
 
         return twitterUser.getUserFollowers();
     }

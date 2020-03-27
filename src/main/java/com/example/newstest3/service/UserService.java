@@ -2,6 +2,7 @@ package com.example.newstest3.service;
 
 
 import com.example.newstest3.TwitterController.TwitterUserService;
+import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.entity.Follower;
 import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.repository.UserRepository;
@@ -16,8 +17,7 @@ import java.util.List;
 @Service
 public class UserService  {
 
-    @Value("#{'${usersnames}'.split(',')}")
-    private List<String> usersNames;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -33,23 +33,21 @@ public class UserService  {
 
 
 
-    public List<TwitterUser> fetchTwitterAccounts(){
+    public List<TwitterUser> fetchTwitterAccounts(List<String> accountNames, AccountClassification accountClassificationName){
         List<TwitterUser>  twitterUserList= new ArrayList<>();
-        usersNames.stream().map(twitterUserService::fetchTwitterUser).forEach(twitterUserList::add);
+        accountNames.stream().map(twitterUserService::fetchTwitterUser).forEach(twitterUserList::add);
+        twitterUserList.forEach(twitterUser -> twitterUser.setAccountClassification(accountClassificationName));
         twitterUserList.forEach(this::fetchTwitterUsersData);
 
         return twitterUserList;
     }
 
     public void fetchTwitterUsersData(TwitterUser twitterUser) {
-        fetchTwitterUserFollowers(twitterUser);
+        twitterUserService.fetchUserFollowers(twitterUser);
         tweetService.fetchTwitterUserTweets(twitterUser);
         saveTwitterUserInfo(twitterUser);
     }
 
-    private List<Follower> fetchTwitterUserFollowers(TwitterUser twitterUser) {
-        return  twitterUserService.fetchUserFollowers(twitterUser);
-    }
 
     public TwitterUser saveTwitterUserInfo(TwitterUser twitterUser){
         return userRepository.save(twitterUser);
