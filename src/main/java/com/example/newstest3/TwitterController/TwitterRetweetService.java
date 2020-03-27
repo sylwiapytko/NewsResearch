@@ -53,7 +53,6 @@ public class TwitterRetweetService {
     private Tweet retriveTweetfromStatus(Status status) {
         Tweet tweet = new Tweet();
         BeanUtils.copyProperties(status,tweet);
-        tweet.setTwitterUserScreenName(status.getUser().getScreenName());
         tweet.setTwitterUser(retriveUserfromStatus(status));
         return tweet;
     }

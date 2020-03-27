@@ -27,8 +27,6 @@ public class Tweet {
     @JoinColumn(name="USER_ID")
     private TwitterUser twitterUser;
 
-    private String twitterUserScreenName;
-
     @Column(name = "TWEET_TEXT", length  = 350)
     private String text;
 
@@ -132,9 +130,6 @@ public class Tweet {
         this.retweetedFetchedRetweetsCount = this.tweetRetweets.size();
     }
 
-    public void setTwitterUserScreenName(String twitterUserScreenName) {
-        this.twitterUserScreenName = twitterUserScreenName;
-    }
 
     public void setTextLength() {
         this.textLength = this.text.length();

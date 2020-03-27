@@ -38,7 +38,6 @@ public class StatusToTweet {
     private Tweet retriveTweetfromStatus(Status status) {
         Tweet tweet = new Tweet();
         BeanUtils.copyProperties(status,tweet);
-        tweet.setTwitterUserScreenName(status.getUser().getScreenName());
         retriveTweetExtraInfo(status,tweet);
 
         return tweet;
