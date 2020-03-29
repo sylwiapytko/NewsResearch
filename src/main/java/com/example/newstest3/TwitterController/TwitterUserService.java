@@ -39,7 +39,9 @@ public class TwitterUserService {
             twitterUser.setURLExpanded();
             twitterUser.setURLTwitter();
         } catch (TwitterException e) {
-            sleepService.printErrorAndSleepSec(e, 60);
+            System.out.println("User not found - " + userName);
+            return  null;
+            //sleepService.printErrorAndSleepSec(e, 60);
         }
 
         //TODO: if user doesnt exist then app is saving empty row with id =0

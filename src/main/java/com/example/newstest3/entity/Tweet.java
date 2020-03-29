@@ -27,7 +27,7 @@ public class Tweet {
     @JoinColumn(name="USER_ID")
     private TwitterUser twitterUser;
 
-    @Column(name = "TWEET_TEXT", length  = 350)
+    @Column(name = "TWEET_TEXT", length  = 750)
     private String text;
 
     @Column(name = "TWEET_TEXT_LENGTH")

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -36,10 +37,15 @@ public class UserService  {
     public List<TwitterUser> fetchTwitterAccounts(List<String> accountNames, AccountClassification accountClassificationName){
         List<TwitterUser>  twitterUserList= new ArrayList<>();
         accountNames.stream().map(twitterUserService::fetchTwitterUser).forEach(twitterUserList::add);
+        deleteNullUsers(twitterUserList);
         twitterUserList.forEach(twitterUser -> twitterUser.setAccountClassification(accountClassificationName));
         twitterUserList.forEach(this::fetchTwitterUsersData);
 
         return twitterUserList;
+    }
+
+    private void deleteNullUsers(List<TwitterUser> twitterUserList) {
+        twitterUserList.removeAll(Collections.singleton(null));
     }
 
     public void fetchTwitterUsersData(TwitterUser twitterUser) {
