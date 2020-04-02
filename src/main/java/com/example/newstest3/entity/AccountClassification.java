@@ -7,6 +7,7 @@ public enum AccountClassification {
     TEST,
     RETWEETER,
     FOLLOWER,
-    OTHER
+    OTHER,
+    FACTCHECK
 
 }
