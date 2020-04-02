@@ -12,10 +12,11 @@ public class SleepService {
     public void printErrorAndSleepSec(TwitterException e, int seconds) {
         log.info("IM ALIVE & SLEEPING FOR "+ seconds + " seconds");
         e.printStackTrace();
-        sleepForTime(1000 * seconds); //1000 = 1s
+        sleepForTime(seconds); //1000 = 1s
     }
 
-    public void sleepForTime(Integer time){//time 1000
+    public void sleepForTime(Integer seconds){//time 1000
+        int time = 1000 * seconds;
         try {
             sleep(time); // 900 rqt / 15 mn <=> 1 rqt/s
         } catch (InterruptedException e) {

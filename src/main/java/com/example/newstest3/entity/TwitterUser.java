@@ -29,6 +29,8 @@ public class TwitterUser {
     @Enumerated(EnumType.STRING)
     private AccountClassification accountClassification;
 
+    private Date retrievedAt;
+
     private String URLTwitter;
     private String URL;
     private String URLExpanded;

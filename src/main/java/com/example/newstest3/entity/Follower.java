@@ -13,6 +13,10 @@ import javax.persistence.*;
 public class Follower {
 
     @Id
+    @Column(nullable = false, unique = true)
+    @GeneratedValue
+    private long id;
+
     @Column(name = "FOLLOWER_ID", nullable = false)
     private long followerId;
 

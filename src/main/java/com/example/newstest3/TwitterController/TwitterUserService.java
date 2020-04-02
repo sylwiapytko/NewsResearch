@@ -65,13 +65,14 @@ public class TwitterUserService {
                 userFollowers.addAll(retriveFollowersfromIDs(ids));
                 System.out.println("followers " + userFollowers.size());
 
-            } while ((cursor = ids.getNextCursor()) != 0);
+            } while ((cursor = ids.getNextCursor()) != 0 && userFollowers.size() < 500000);
 
         return userFollowers;
     }
 
     private IDs retriveFollowersIDsbyCoursor(TwitterUser twitterUser, long cursor) {
         try {
+            sleepService.sleepForTime(65);
             return twitter.getFollowersIDs(twitterUser.getId(), cursor);
         } catch (TwitterException e) {
             sleepService.printErrorAndSleepSec(e, 60 * 5);

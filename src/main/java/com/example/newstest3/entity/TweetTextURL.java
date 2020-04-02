@@ -25,6 +25,8 @@ public class TweetTextURL {
 
     private URLEntity urlEntity;
     private String URL;
+
+    @Column(length  = 750)
     private String URLExpanded;
 
     public void setURL() {
