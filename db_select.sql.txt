@@ -1,0 +1,76 @@
+-- SELECT max(t.created_at), t.user_id, u.account_classification
+-- 	FROM public.twitter_tweet t
+-- 	join twitter_user u
+-- 	on u.user_id =t.user_id
+-- 	group by t.user_id, u.account_classification
+-- 	order by max(t.created_at)
+-- 	;
+
+-- SELECT min(t.created_at), t.user_id, u.account_classification, u.screen_name
+-- 	FROM public.twitter_tweet t
+-- 	join twitter_user u
+-- 	on u.user_id =t.user_id
+-- 	group by t.user_id, u.account_classification, u.screen_name
+-- 	order by min(t.created_at)
+-- 	;
+	
+-- 	SELECT count(t.tweet_id),min(t.created_at)
+-- 	, t.user_id
+-- 	, u.account_classification
+-- 	, u.screen_name
+-- 	, u.statuses_count
+-- 	, u.statuses_fetched_count
+-- 	FROM public.twitter_tweet t
+-- 	join twitter_user u
+-- 	on u.user_id =t.user_id
+-- 	where t.created_at = '2020-03-10 100000' 
+-- 	group by t.user_id, u.account_classification, u.screen_name,u.statuses_count
+-- 	, u.statuses_fetched_count
+-- 	order by min(t.created_at)
+-- 	;
+
+-- SELECT DATE(t.created_at) AS date
+-- 	,COUNT(t.tweet_id) AS count 
+-- 	, t.user_id
+--  	, u.account_classification
+-- 	, u.screen_name
+-- FROM public.twitter_tweet t
+-- join twitter_user u
+--  	on u.user_id =t.user_id
+-- 	where t.created_at = '2020-03-10 100000' 
+-- GROUP BY DATE(t.created_at)
+-- 	, t.user_id
+--  	, u.account_classification
+-- 	, u.screen_name
+	
+-- 	SELECT DATE(t.created_at) AS date
+-- 	,COUNT(t.tweet_id) AS count 
+-- 	,round(AVG(t.retweet_count),1)
+-- 	, t.user_id
+--  	, u.account_classification
+-- 	, u.screen_name
+-- FROM public.twitter_tweet t
+-- join twitter_user u
+--  	on u.user_id =t.user_id
+-- 	where t.created_at = '2020-03-10 100000' 
+-- GROUP BY DATE(t.created_at)
+-- 	, t.user_id
+--  	, u.account_classification
+-- 	, u.screen_name
+-- 	order by round(AVG(t.retweet_count),1) desc
+
+
+	SELECT COUNT(t.tweet_id) AS count 
+	,round(AVG(t.retweet_count),1)
+	, t.user_id
+ 	, u.account_classification
+	, u.screen_name
+FROM public.twitter_tweet t
+join twitter_user u
+ 	on u.user_id =t.user_id
+	where t.created_at = '2020-03-10 100000' 
+GROUP BY  t.user_id
+ 	, u.account_classification
+	, u.screen_name
+	order by round(AVG(t.retweet_count),1) desc
+	
