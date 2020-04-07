@@ -8,6 +8,7 @@ public enum AccountClassification {
     RETWEETER,
     FOLLOWER,
     OTHER,
-    FACTCHECK
+    FACTCHECK,
+    BIGMAINSTREAM
 
 }
