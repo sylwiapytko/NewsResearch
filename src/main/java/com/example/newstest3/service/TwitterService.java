@@ -27,6 +27,9 @@ public class TwitterService {
     @Value("#{'${account.names.factcheck}'.split(',')}")
     private List<String> accountNamesFactcheck;
 
+    @Value("#{'${account.names.update}'.split(',')}")
+    private List<String> accountNamesUpdate;
+
     @Autowired
     UserService userService;
 
@@ -37,6 +40,8 @@ public class TwitterService {
         List<TwitterUser> twitterUserListMainstream = userService.fetchTwitterAccounts(accountNamesMainstream, AccountClassification.MAINSTREAM);
         List<TwitterUser> twitterUserListBigMainstream = userService.fetchTwitterAccounts(accountNamesBigmainstream, AccountClassification.BIGMAINSTREAM);
         List<TwitterUser> twitterUserListFactcheck = userService.fetchTwitterAccounts(accountNamesFactcheck, AccountClassification.FACTCHECK);
+
+        List<TwitterUser> twitterUserListUpdate = userService.updateUsersAccountClassification(accountNamesUpdate, AccountClassification.GEMIUS_OCT);
 
 
     }

@@ -9,6 +9,7 @@ public enum AccountClassification {
     FOLLOWER,
     OTHER,
     FACTCHECK,
-    BIGMAINSTREAM
+    BIGMAINSTREAM,
+    GEMIUS_OCT
 
 }

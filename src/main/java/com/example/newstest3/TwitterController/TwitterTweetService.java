@@ -43,12 +43,12 @@ public class TwitterTweetService {
             if(statusesNew.isEmpty()){ break;}
             else{
                 statuses.addAll(statusesNew);
-                System.out.println("tweets : " + statuses.size());
 
                 pageno++;
                 //sleepService.sleepForTime(1000);
             }
         }
+        System.out.println("tweets : " + statuses.size());
         return statuses;
     }
 
