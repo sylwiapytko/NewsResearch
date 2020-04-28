@@ -33,6 +33,9 @@ public class TwitterService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TwitterService twitterService;
+
 
     public void fetchTwitterUsersAccounts(){
         List<TwitterUser> twitterUserListTest = userService.fetchTwitterAccounts(accountNamesTest, AccountClassification.TEST);
@@ -41,8 +44,12 @@ public class TwitterService {
         List<TwitterUser> twitterUserListBigMainstream = userService.fetchTwitterAccounts(accountNamesBigmainstream, AccountClassification.BIGMAINSTREAM);
         List<TwitterUser> twitterUserListFactcheck = userService.fetchTwitterAccounts(accountNamesFactcheck, AccountClassification.FACTCHECK);
 
+    }
+    public void updateTwitterUsersClassification(){
         List<TwitterUser> twitterUserListUpdate = userService.updateUsersAccountClassification(accountNamesUpdate, AccountClassification.GEMIUS_OCT);
 
-
+    }
+    public void updateTwitterUsersTweets(){
+        userService.updateTwitterUsersTweetsbyClassification(AccountClassification.FACTCHECK);
     }
 }

@@ -30,9 +30,10 @@ public class TweetService {
     public List<Tweet> fetchTwitterUserTweets(TwitterUser twitterUser){
         twitterTweetService.fetchUserTweets(twitterUser);
         twitterUser.setStatusesFetchedCount();
+
         //twitterUser.getUserTweets().forEach(this::fetchRetweetInfo);
 
-
+        //saveTwitterUserTweets(twitterUser);
      return twitterUser.getUserTweets();
     }
 

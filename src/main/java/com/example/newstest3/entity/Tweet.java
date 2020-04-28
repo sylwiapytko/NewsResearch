@@ -33,6 +33,7 @@ public class Tweet {
     @Column(name = "TWEET_TEXT_LENGTH")
     private int textLength;
 
+    private Date retrievedAt;
     private Date createdAt;
     private String source;
     private GeoLocation geoLocation;

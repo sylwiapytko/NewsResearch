@@ -13,42 +13,52 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    @Log
-    @SpringBootApplication
-    public class Newstest3Application
-            implements CommandLineRunner {
+@Log
+@SpringBootApplication
+public class Newstest3Application
+        implements CommandLineRunner {
 
-        @Value("${mojparametr}")
-        private  String mojparametr;
+    @Value("${mojparametr}")
+    private String mojparametr;
 
-        @Autowired
-        TwitterService twitterService;
+    @Value("${date.lastFetch}")
+    private String lastFetchDate;
+    @Value("${date.dummy}")
+    private String dummyDate;
 
-        @Autowired
-        ApplicationArguments applicationArguments;
+    @Autowired
+    TwitterService twitterService;
 
-
-        public static void main(String[] args) {
-            log.info("STARTING THE APPLICATION");
-            SpringApplication.run(Newstest3Application.class, args);
-            log.info("APPLICATION FINISHED");
-        }
-
-        @Override
-        public void run(String... args) {
-            log.info("EXECUTING : command line runner");
+    @Autowired
+    ApplicationArguments applicationArguments;
 
 
-            String userName = "hildatheseries";
-            twitterService.fetchTwitterUsersAccounts();
-
-
-            for (int i = 0; i < args.length; ++i) {
-                log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
-            }
-
-        }
+    public static void main(String[] args) {
+        log.info("STARTING THE APPLICATION");
+        SpringApplication.run(Newstest3Application.class, args);
+        log.info("APPLICATION FINISHED");
     }
+
+    @Override
+    public void run(String... args) {
+        log.info("EXECUTING : command line runner");
+
+
+        String userName = "hildatheseries";
+        //twitterService.fetchTwitterUsersAccounts();
+        //twitterService.updateTwitterUsersTweets();
+
+
+
+        for (int i = 0; i < args.length; ++i) {
+            log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
+        }
+
+    }
+}
 
 

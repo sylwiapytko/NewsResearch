@@ -9,6 +9,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,6 +39,8 @@ public class StatusToTweet {
     private Tweet retriveTweetfromStatus(Status status) {
         Tweet tweet = new Tweet();
         BeanUtils.copyProperties(status,tweet);
+        tweet.setRetrievedAt(new Date());
+
         retriveTweetExtraInfo(status,tweet);
 
         return tweet;

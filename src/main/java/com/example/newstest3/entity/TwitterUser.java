@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import twitter4j.URLEntity;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.Cascade;
+
 
 @Entity
 @Table(name="TWITTER_USER")

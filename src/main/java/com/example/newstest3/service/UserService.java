@@ -4,22 +4,30 @@ package com.example.newstest3.service;
 import com.example.newstest3.TwitterController.TwitterUserService;
 import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.entity.TwitterUser;
+import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.repository.UserRepository;
 import lombok.extern.java.Log;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
 
 @Log
 @Service
+@Transactional
 public class UserService  {
 
 
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TweetRepository tweetRepository;
 
     @Autowired
     TwitterService twitterService;
@@ -38,6 +46,7 @@ public class UserService  {
         deleteNullUsers(twitterUserList);
         twitterUserList.forEach(twitterUser -> twitterUser.setAccountClassification(accountClassificationName));
         twitterUserList.forEach(twitterUser -> twitterUser.setRetrievedAt(new Date()));
+        twitterUserList.forEach(this::fetchTwitterUsersFollowers);
         twitterUserList.forEach(this::fetchTwitterUsersData);
 
         return twitterUserList;
@@ -46,17 +55,32 @@ public class UserService  {
     private void deleteNullUsers(List<TwitterUser> twitterUserList) {
         twitterUserList.removeAll(Collections.singleton(null));
     }
-
-    public void fetchTwitterUsersData(TwitterUser twitterUser) {
-        log.info("User - " + twitterUser.getScreenName());
+    public void fetchTwitterUsersFollowers(TwitterUser twitterUser) {
+        log.info("Followers of User - " + twitterUser.getScreenName());
 
         if(twitterUser.getAccountClassification()!= AccountClassification.BIGMAINSTREAM){
             twitterUserService.fetchUserFollowers(twitterUser);
         }
+    }
+    @Transactional
+    public void fetchTwitterUsersData(TwitterUser twitterUser) {
+        log.info("Tweets of User - " + twitterUser.getScreenName());
+
         tweetService.fetchTwitterUserTweets(twitterUser);
         saveTwitterUserInfo(twitterUser);
     }
 
+
+    public void updateTwitterUsersTweetsbyClassification(AccountClassification accountClassification){
+        List<TwitterUser> twitterUsers = userRepository.findAllByAccountClassificationEquals(accountClassification);
+        twitterUsers.forEach(this::initializeTwitterUsersData);
+        twitterUsers.forEach(this::fetchTwitterUsersData);
+    }
+
+    private void initializeTwitterUsersData(TwitterUser twitterUser) {
+       // tweetRepository.findAllByTwitterUserEquals(twitterUser);
+        Hibernate.initialize(twitterUser.getUserTweets());
+    }
 
     public TwitterUser saveTwitterUserInfo(TwitterUser twitterUser){
 
