@@ -14,6 +14,18 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
 
     List<Tweet> findAllByTwitterUserEquals(TwitterUser twitterUserId);
 
+
+    @Query("SELECT t FROM Tweet t  " +
+            "JOIN TwitterUser u " +
+            "on u.id = t.twitterUser.id " +
+            "where u.accountClassification = :accountClassification " +
+            "and t.createdAt > :startDate  " +
+            "and t.createdAt < :endDate ")
+    List<Tweet> findTweetsByAccountClassification(
+            @Param("accountClassification") AccountClassification accountClassification,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
+
     @Query("SELECT t FROM Tweet t  " +
             "JOIN TwitterUser u " +
             "on u.id = t.twitterUser.id " +
@@ -38,4 +50,9 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             @Param("accountClassification") AccountClassification accountClassification,
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
+
+
+
+
+
 }

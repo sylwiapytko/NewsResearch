@@ -1,11 +1,9 @@
 package com.example.newstest3;
 
-import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.researchService.ExtraDataService;
 import com.example.newstest3.researchService.ResearchService;
 import com.example.newstest3.service.TweetService;
 import com.example.newstest3.service.TwitterService;
-import com.example.newstest3.service.UserService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,13 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 import java.text.MessageFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 @Log
 @SpringBootApplication
@@ -64,11 +56,8 @@ public class Newstest3Application
         //twitterService.fetchTwitterUsersAccounts();
         //twitterService.updateTwitterUsersTweets();
         //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
-
-
-
-
-
+        researchService.saveAccountswithClassificationToJson();
+        researchService.writeTweetswithRetweetersToJson();
 
 
         for (int i = 0; i < args.length; ++i) {
