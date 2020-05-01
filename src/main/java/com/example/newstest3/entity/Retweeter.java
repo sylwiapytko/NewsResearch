@@ -12,6 +12,10 @@ import javax.persistence.*;
 public class Retweeter {
 
     @Id
+    @Column(name = "TWEET_RETWEETER_ID", nullable = false)
+    @GeneratedValue
+    private long id;
+
     @Column(name = "RETWEETER_ID", nullable = false)
     private long retweeterId;
 

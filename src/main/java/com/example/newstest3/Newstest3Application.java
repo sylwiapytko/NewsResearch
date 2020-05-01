@@ -1,5 +1,8 @@
 package com.example.newstest3;
 
+import com.example.newstest3.entity.AccountClassification;
+import com.example.newstest3.researchService.ExtraDataService;
+import com.example.newstest3.researchService.ResearchService;
 import com.example.newstest3.service.TweetService;
 import com.example.newstest3.service.TwitterService;
 import com.example.newstest3.service.UserService;
@@ -15,6 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 @Log
@@ -34,6 +39,15 @@ public class Newstest3Application
     TwitterService twitterService;
 
     @Autowired
+    TweetService tweetService;
+
+    @Autowired
+    ExtraDataService extraDataService;
+
+    @Autowired
+    ResearchService researchService;
+
+    @Autowired
     ApplicationArguments applicationArguments;
 
 
@@ -45,12 +59,15 @@ public class Newstest3Application
 
     @Override
     public void run(String... args) {
-        log.info("EXECUTING : command line runner");
+        log.info("RUN");
 
-
-        String userName = "hildatheseries";
         //twitterService.fetchTwitterUsersAccounts();
         //twitterService.updateTwitterUsersTweets();
+        //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
+
+
+
+
 
 
 
@@ -59,6 +76,8 @@ public class Newstest3Application
         }
 
     }
+
+
 }
 
 

@@ -2,6 +2,7 @@ package com.example.newstest3.TwitterController;
 
 import com.example.newstest3.entity.Retweeter;
 import com.example.newstest3.entity.Tweet;
+import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.service.RetweeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,13 @@ public class TwitterRetweeterService {
     @Autowired
     RetweeterService retweeterService;
 
+    @Autowired
+    private TweetRepository tweetRepository;
+
     public List<Retweeter> fetchTweetRetweeters(Tweet tweet) {
         tweet.addtweetRetweeter(retriveTweetRetweeters(tweet));
-
-        System.out.println("retweetersIDs for tweet: "+ tweet.getId() +" = " + tweet.getTweetRetweeters().size());
+        //tweetRepository.save(tweet);
+        System.out.println("retweetersIDs for tweet: "+ tweet.getId() +" count " + tweet.getRetweetCount() +" retrieved " + tweet.getTweetRetweeters().size() );
         return  tweet.getTweetRetweeters();
     }
     public List<Retweeter> retriveTweetRetweeters(Tweet tweet) { //max 75 tweetow!
@@ -47,7 +51,8 @@ public class TwitterRetweeterService {
 
     private IDs retriveFollowersIDsbyCoursor(Tweet tweet, long cursor) {
         try {
-            return twitter.getRetweeterIds(tweet.getId(), 75,  cursor);
+            sleepService.sleepForTime(21);
+            return twitter.getRetweeterIds(tweet.getId(), 100,  cursor);
         } catch (TwitterException e) {
             sleepService.printErrorAndSleepSec(e, 1);
             return  null;
