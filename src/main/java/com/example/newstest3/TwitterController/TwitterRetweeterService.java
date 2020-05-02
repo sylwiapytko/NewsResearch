@@ -33,7 +33,7 @@ public class TwitterRetweeterService {
     public List<Retweeter> fetchTweetRetweeters(Tweet tweet) {
         tweet.addtweetRetweeter(retriveTweetRetweeters(tweet));
         //tweetRepository.save(tweet);
-        System.out.println("retweetersIDs for tweet: "+ tweet.getId() +" count " + tweet.getRetweetCount() +" retrieved " + tweet.getTweetRetweeters().size() );
+        //System.out.println("retweetersIDs for tweet: "+ tweet.getId() +" count " + tweet.getRetweetCount() +" retrieved " + tweet.getTweetRetweeters().size() );
         return  tweet.getTweetRetweeters();
     }
     public List<Retweeter> retriveTweetRetweeters(Tweet tweet) { //max 75 tweetow!

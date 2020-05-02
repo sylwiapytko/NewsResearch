@@ -51,10 +51,11 @@ public class TweetService {
 
     private void fetchRetweetInfo(Tweet tweet) {
 
-        System.out.println("tweet " + tweet.getCreatedAt() + "  counter " + ++counter);
 
         twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
         //twitterRetweetService.fetchTweetRetweets(tweet);//max 75 tweetow for 15 min
+        System.out.println("tweet " + tweet.getCreatedAt() + "  counter " + ++counter + ": total " + tweet.getRetweetCount() + " retreived: " + tweet.getRetweetedFetchedRetweetersCount() );
+
     }
 
     @Transactional

@@ -32,7 +32,8 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             "where u.accountClassification = :accountClassification " +
             "and t.createdAt > :startDate  " +
             "and t.createdAt < :endDate " +
-            "and t.retweetCount > 0 ")
+            "and t.retweetCount > 0 " +
+            "and t.retweet = false")
     List<Tweet> findTweetsByAccountClassificationAndTimeParams(
             @Param("accountClassification") AccountClassification accountClassification,
             @Param("startDate") Date startDate,
