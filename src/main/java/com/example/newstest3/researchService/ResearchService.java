@@ -98,6 +98,24 @@ public class ResearchService {
         }
 
     }
+    public void saveClassificationAccountsToJson(AccountClassification accountClassification){
+        List<String> twitterUserList = userRepository.findIdsByAccountClassificationEquals(accountClassification).stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());;
+
+        saveListtoJson(twitterUserList, accountClassification);
+    }
+
+    private void saveListtoJson(List<String> classUsersList , AccountClassification accountClassification) {
+        try (Writer writer = new FileWriter(accountClassification.toString() + ".json")) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(classUsersList, writer);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     public void saveAccountswithClassificationToJson(){
         Map<String, Boolean> userClassificationMap  = new HashMap<>();
         userClassificationMap.putAll(getUserswithClassification(AccountClassification.JUNK, true));
