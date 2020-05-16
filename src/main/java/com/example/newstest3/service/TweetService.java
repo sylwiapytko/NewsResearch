@@ -54,28 +54,30 @@ public class TweetService {
 
         twitterRetweeterService.fetchTweetRetweeters(tweet);//max 75 tweetow for 15 min
         //twitterRetweetService.fetchTweetRetweets(tweet);//max 75 tweetow for 15 min
-        System.out.println("tweet " + tweet.getCreatedAt() + "  counter " + ++counter + ": total " + tweet.getRetweetCount() + " retreived: " + tweet.getRetweetedFetchedRetweetersCount() );
+        System.out.println("tweet " + tweet.getCreatedAt() + " : "+ tweet.getId()+ "  counter " + ++counter + ": total " + tweet.getRetweetCount() + " retreivedCount: " + tweet.getRetweetedFetchedRetweetersCount() + " retreived size " + tweet.getTweetRetweeters().size() );
 
+    }
+
+
+    @Transactional
+    public List<Tweet> fetchLostRetweetersofUsersbyClassificationandTime(AccountClassification accountClassification
+            , Date dateStart, Date dateEnd) {
+
+        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndNoRetweetersReallyFetched(accountClassification, dateStart, dateEnd);
+
+        return fetchRetweeters(accountClassification, dateStart, dateEnd, tweetList);
     }
 
     @Transactional
     public List<Tweet> fetchRetweetersofUsersbyClassificationandTime(AccountClassification accountClassification
             , Date dateStart, Date dateEnd) {
 
-        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParams(accountClassification, dateStart, dateEnd);
+        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(accountClassification, dateStart, dateEnd);
 
-        return fetchRetweeters(accountClassification, dateStart, dateEnd, tweetList);
+        return  fetchRetweeters(accountClassification, dateStart, dateEnd, tweetList);
+
     }
 
-    @Transactional
-    public List<Tweet> fetchAGAINRetweetersofUsersbyClassificationandTime(AccountClassification accountClassification
-            , Date dateStart, Date dateEnd) {
-
-        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(
-                accountClassification, dateStart, dateEnd);
-
-        return fetchRetweeters(accountClassification, dateStart, dateEnd, tweetList);
-    }
 
     private List<Tweet> fetchRetweeters(AccountClassification accountClassification, Date dateStart, Date dateEnd, List<Tweet> tweetList) {
         counter = 0;
@@ -85,7 +87,6 @@ public class TweetService {
         tweetList.forEach(this::initializeTwitterUsersData);
         tweetList.forEach(this::fetchRetweetInfo);
 
-        tweetRepository.saveAll(tweetList);
 
         System.out.println(accountClassification + " day: " + dateStart + " - " + dateEnd + "  counter " + counter + " / " + tweetList.size());
         System.out.println("tweets count " + tweetList.size());

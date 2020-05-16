@@ -74,3 +74,40 @@ GROUP BY  t.user_id
 	, u.screen_name
 	order by round(AVG(t.retweet_count),1) desc
 	
+	
+	
+	
+	SELECT DATE(t.created_at) AS date
+ 	,COUNT(t.tweet_id) AS count 
+ 	,round(AVG(t.retweet_count),1)
+ 	, t.user_id
+  	, u.account_classification
+ 	, u.screen_name
+ FROM public.twitter_tweet t
+ join twitter_user u
+  	on u.user_id =t.user_id
+ 	where t.created_at > '2020-03-13' 
+	and t.created_at < '2020-04-02' 
+	and u.account_classification = 'JUNK'
+	
+ GROUP BY DATE(t.created_at)
+ 	, t.user_id
+  	, u.account_classification
+ 	, u.screen_name
+ 	order by DATE(t.created_at), round(AVG(t.retweet_count),1) desc
+	
+	
+	
+		SELECT COUNT(t.tweet_id) AS count 
+ 	,round(AVG(t.retweet_count),1)
+  	, u.account_classification
+ FROM public.twitter_tweet t
+ join twitter_user u
+  	on u.user_id =t.user_id
+ 	where t.created_at > '2020-03-13' 
+	and t.created_at < '2020-04-02' 
+	and u.account_classification = 'JUNK'	
+ GROUP BY  u.account_classification
+ 	order by  round(AVG(t.retweet_count),1) desc
+	
+	

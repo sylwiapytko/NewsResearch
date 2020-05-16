@@ -26,28 +26,48 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
 
-    @Query("SELECT t FROM Tweet t  " +
-            "JOIN TwitterUser u " +
-            "on u.id = t.twitterUser.id " +
-            "where u.accountClassification = :accountClassification " +
-            "and t.createdAt > :startDate  " +
-            "and t.createdAt < :endDate " +
-            "and t.retweetCount > 0 " +
-            "and t.retweet = false")
-    List<Tweet> findTweetsByAccountClassificationAndTimeParams(
-            @Param("accountClassification") AccountClassification accountClassification,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate);
+//    @Query("SELECT t FROM Tweet t  " +
+//            "JOIN TwitterUser u " +
+//            "on u.id = t.twitterUser.id " +
+//            "where u.accountClassification = :accountClassification " +
+//            "and t.createdAt > :startDate  " +
+//            "and t.createdAt < :endDate " +
+//            "and t.retweetCount > 0 " +
+//            "and t.retweet = false")
+//    List<Tweet> findTweetsByAccountClassificationAndTimeParams(
+//            @Param("accountClassification") AccountClassification accountClassification,
+//            @Param("startDate") Date startDate,
+//            @Param("endDate") Date endDate);
 
     @Query("SELECT t FROM Tweet t  " +
             "JOIN TwitterUser u " +
             "on u.id = t.twitterUser.id " +
+            "left join Retweeter r on r.tweet.id = t.id " +
             "where u.accountClassification = :accountClassification " +
             "and t.createdAt > :startDate  " +
             "and t.createdAt < :endDate " +
             "and t.retweetCount > 0 " +
-            "and t.retweetedFetchedRetweetersCount=0")
+            "and t.retweetedFetchedRetweetersCount=0 " +
+            "and t.retweet = false " +
+            "and r.tweet.id is null ")
     List<Tweet> findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(
+            @Param("accountClassification") AccountClassification accountClassification,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
+
+
+    @Query("SELECT t FROM Tweet t  " +
+            "JOIN TwitterUser u " +
+            "on u.id = t.twitterUser.id " +
+            "left join Retweeter r on r.tweet.id = t.id " +
+            "where u.accountClassification = :accountClassification " +
+            "and t.createdAt > :startDate  " +
+            "and t.createdAt < :endDate " +
+            "and t.retweetCount > 0 " +
+            "and t.retweetedFetchedRetweetersCount>0 " +
+            "and t.retweet = false " +
+            "and r.tweet.id is null ")
+    List<Tweet> findTweetsByAccountClassificationAndTimeParamsAndNoRetweetersReallyFetched(
             @Param("accountClassification") AccountClassification accountClassification,
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);

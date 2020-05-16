@@ -42,7 +42,9 @@ public class TwitterRetweeterService {
         List<Retweeter> retweetersIDs = new ArrayList<>();
         do {
             ids = retriveFollowersIDsbyCoursor( tweet,   cursor);
+            if(ids == null) break;
             retweetersIDs.addAll(retriveFollowersfromIDs(ids));
+
 
         } while((cursor = ids.getNextCursor())!=0 );
                 
@@ -54,13 +56,13 @@ public class TwitterRetweeterService {
             sleepService.sleepForTime(21);
             return twitter.getRetweeterIds(tweet.getId(), 100,  cursor);
         } catch (TwitterException e) {
-            sleepService.printErrorAndSleepSec(e, 1);
+            sleepService.printErrorAndSleepSec(e, 60);
             return  null;
         }
     }
 
     private List<Retweeter> retriveFollowersfromIDs(IDs ids) {
-        if (ids.equals(null)) return null;
+        if (ids == null) return new ArrayList<Retweeter>();
         return Arrays.stream(ids.getIDs())
                 .boxed()
                 .map(retweeterService::createRetweeterbyId)

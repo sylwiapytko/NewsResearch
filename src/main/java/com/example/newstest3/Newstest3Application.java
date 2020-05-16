@@ -1,5 +1,6 @@
 package com.example.newstest3;
 
+import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.researchService.ExtraDataService;
 import com.example.newstest3.researchService.ResearchService;
 import com.example.newstest3.service.TweetService;
@@ -56,8 +57,11 @@ public class Newstest3Application
         //twitterService.fetchTwitterUsersAccounts();
         //twitterService.updateTwitterUsersTweets();
         //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
-        researchService.saveAccountswithClassificationToJson();
-        researchService.writeTweetswithRetweetersToJson();
+
+        extraDataService.fetchRetweetersofUsersbyClassificationandTime();
+        //researchService.saveAccountswithClassificationToJson();
+        //researchService.writeTweetswithRetweetersToJson();
+        //researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
 
 
         for (int i = 0; i < args.length; ++i) {
