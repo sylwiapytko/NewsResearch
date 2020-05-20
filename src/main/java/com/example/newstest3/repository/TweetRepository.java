@@ -72,8 +72,15 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
 
-
-
+    @Query("SELECT t.id FROM Tweet t  " +
+            "JOIN TwitterUser u " +
+            "on u.id = t.twitterUser.id " +
+            "where u.id = :userID " +
+            "and t.createdAt > :startDate  " +
+            "and t.createdAt < :endDate " +
+            "and t.retweet = false " +
+            "and t.retweetedFetchedRetweetersCount > 0")
+    List<Long> findAllOriginalWithRetweetersByTwitterUserAndTime(Long userID, Date startDate, Date endDate);
 
 
 }

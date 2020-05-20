@@ -1,10 +1,14 @@
 package com.example.newstest3.researchService;
 
 import com.example.newstest3.entity.AccountClassification;
+import com.example.newstest3.entity.Retweeter;
 import com.example.newstest3.entity.Tweet;
+import com.example.newstest3.entity.TwitterUser;
+import com.example.newstest3.model.UserTweetsRetweeters;
 import com.example.newstest3.repository.RetweeterRepository;
 import com.example.newstest3.repository.TweetRepository;
 import com.example.newstest3.repository.UserRepository;
+import com.example.newstest3.repository.UserTweetRetweeterRepository;
 import com.example.newstest3.service.TweetService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,6 +44,9 @@ public class ResearchService {
     @Autowired
     TweetRepository tweetRepository;
 
+    @Autowired
+    UserTweetRetweeterRepository userTweetRetweeterRepository;
+
     @Value("${date.retweeters.start}")
     private String retweetersDateStart;
 
@@ -50,23 +57,52 @@ public class ResearchService {
         Map<String, List<String>> usersRetweetersMap  = new HashMap<>();
         usersRetweetersMap.putAll(getUserTweetswithRetweeters(AccountClassification.JUNK));
         usersRetweetersMap.putAll(getUserTweetswithRetweeters(AccountClassification.MAINSTREAM));
+        usersRetweetersMap.putAll(getUserTweetswithRetweeters(AccountClassification.BIGMAINSTREAM));
 
         writeMapRetweeterstoJson(usersRetweetersMap);
     }
 
     private Map<String,List<String>> getUserTweetswithRetweeters(AccountClassification accountClassification) {
-        List<Tweet> tweetsList = tweetRepository.findTweetsByAccountClassification(accountClassification, utils.formatStringtoDate(retweetersDateStart), utils.formatStringtoDate(retweetersDateEnd));
-        System.out.println(tweetsList.size());
-        ///tweetsList.forEach(this::initializeTwitterUsersData);
-        System.out.println("finished initializing " + tweetsList.size());
-        return createMap(tweetsList);
+        List<TwitterUser> twitterUserList =userRepository.findAllByAccountClassificationEquals(accountClassification);
+        System.out.println("num of users : "+ twitterUserList.size());
+        Map<String, List<String>> retweetersMap = new HashMap<>();
+        for(TwitterUser twitterUser: twitterUserList){
+            long start = System.currentTimeMillis();
+            retweetersMap.putAll(getUserTweetsRetweeters(twitterUser));
+
+            long elapsedTime2 = System.currentTimeMillis() - start;
+            System.out.println(" put to map user s: " + elapsedTime2/1000);
+        }
+
+        return retweetersMap;
     }
 
-    private Map<String, List<String>> createMap(List<Tweet> tweetsList) {
+    private Map<String, List<String>> getUserTweetsRetweeters(TwitterUser twitterUser) {
+        List<Long> tweetsList = tweetRepository.findAllOriginalWithRetweetersByTwitterUserAndTime(twitterUser.getId(), utils.formatStringtoDate(retweetersDateStart), utils.formatStringtoDate(retweetersDateEnd));
+        List<Retweeter> retweeterList = retweeterRepository.findRetweetersByTweetIdInList(tweetsList);
+        //List<UserTweetsRetweeters> userTweetsRetweetersList = userTweetRetweeterRepository.findRetweetersByUserId(twitterUser.getId(), utils.formatStringtoDate(retweetersDateStart), utils.formatStringtoDate(retweetersDateEnd));
+//        Map<Tweet, Long> retweeterMap = retweeterList.stream()
+//                .collect(Collectors.toMap(Retweeter::getTweet,Retweeter::getRetweeterId));
+        System.out.println(twitterUser.getScreenName() + "num of tweets : "+ tweetsList.size());
+        return createMap(tweetsList, Long.toString(twitterUser.getId()), retweeterList);
+    }
+
+//    private Map<TwitterUser, String> createUserIdMap(AccountClassification accountClassification) {
+//        List<TwitterUser> twitterUserList =userRepository.findAllByAccountClassificationEquals(accountClassification);
+//        Map<TwitterUser, String> usersIdMap = new HashMap<>();
+//        for (TwitterUser twitterUser : twitterUserList) {
+//
+//            usersIdMap.put(twitterUser,Long.toString(twitterUser.getId()) );
+//        }
+//        return usersIdMap;
+//    }
+
+    private Map<String, List<String>> createMap(List<Long> tweetIdList,  String userId,  List<Retweeter> retweeterList) {
         Map<String, List<String>> retweetersMap = new HashMap<>();
-        for (Tweet tweet : tweetsList) {
-            String userTweetId = new StringBuilder().append(Long.toString(tweet.getTwitterUser().getId())).append("_").append(Long.toString(tweet.getId())).toString();
-            retweetersMap.put(userTweetId, getTweetsRetweeters(tweet.getId()));
+
+        for (Long tweetId : tweetIdList) {
+            String userTweetId = new StringBuilder().append(userId).append("_").append(Long.toString(tweetId)).toString();
+            retweetersMap.put(userTweetId, getTweetsRetweeters(tweetId));
         }
         return  retweetersMap;
     }
@@ -120,6 +156,7 @@ public class ResearchService {
         Map<String, Boolean> userClassificationMap  = new HashMap<>();
         userClassificationMap.putAll(getUserswithClassification(AccountClassification.JUNK, true));
         userClassificationMap.putAll(getUserswithClassification(AccountClassification.MAINSTREAM, false));
+        userClassificationMap.putAll(getUserswithClassification(AccountClassification.BIGMAINSTREAM, false));
 
         saveMaptoJson(userClassificationMap);
     }
