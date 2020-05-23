@@ -2,7 +2,6 @@ package com.example.newstest3.researchService;
 
 import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.entity.Tweet;
-import com.example.newstest3.entity.TweetTextURL;
 import com.example.newstest3.entity.TwitterUser;
 import com.example.newstest3.model.UserUserConnection;
 import com.example.newstest3.repository.TweetRepository;
@@ -10,15 +9,12 @@ import com.example.newstest3.repository.TweetTextURLRepository;
 import com.example.newstest3.repository.UserRepository;
 import com.example.newstest3.repository.UserTweetRetweeterRepository;
 import com.example.newstest3.service.TweetService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -55,7 +51,7 @@ public class NetworkService {
     private String retweetersDateEnd;
 
 
-@Transactional
+    @Transactional
     public void fetchGraphEdges() {
         String dateStartString = "22/03/2020 00:00";
         String dateEndTotalString = "11/04/2020 00:00";
@@ -64,48 +60,72 @@ public class NetworkService {
         Date dateEndTotal = utils.formatStringtoDate(dateEndTotalString);
 
 
-        List<TwitterUser> twitterUserList =userRepository.findAllByAccountClassificationEquals(AccountClassification.JUNK);
+        List<TwitterUser> twitterUserList = userRepository.findAllByAccountClassificationEquals(AccountClassification.JUNK);
         twitterUserList.addAll(userRepository.findAllByAccountClassificationEquals(AccountClassification.MAINSTREAM));
         twitterUserList.addAll(userRepository.findAllByAccountClassificationEquals(AccountClassification.BIGMAINSTREAM));
-        System.out.println("num of users : "+ twitterUserList.size());
+        twitterUserList.addAll(userRepository.findAllByAccountClassificationEquals(AccountClassification.FACTCHECK));
+        System.out.println("num of users : " + twitterUserList.size());
 
-      //  userUserConnections(twitterUserList, dateStart, dateEndTotal);
+        userUserConnections(twitterUserList, dateStart, dateEndTotal);
 
-        userLinkConnection(twitterUserList, dateStart, dateEndTotal);
+//        userLinkConnection(twitterUserList, dateStart, dateEndTotal);
 
     }
-
 
 
     private void userUserConnections(List<TwitterUser> twitterUserList, Date dateStart, Date dateEndTotal) {
-        List<UserUserConnection> userUserConnectionListAll= new ArrayList<>();
-        for(TwitterUser twitterUser : twitterUserList){
+        List<UserUserConnection> userUserConnectionListAll = new ArrayList<>();
+        List<UserUserConnection> userUserConnectionListInside = new ArrayList<>();
+        List<UserUserConnection> userUserConnectionListInsideandBig = new ArrayList<>();
+        for (TwitterUser twitterUser : twitterUserList) {
 
-            List<Tweet> tweetList = tweetRepository.findNotOgiginalTweets( twitterUser.getId(), dateStart, dateEndTotal);
-            // tweetList.forEach(this::initializeTwitterUsersData);
-            System.out.println(twitterUser.getScreenName() + " : " + tweetList.size());
+            List<Tweet> tweetList = tweetRepository.findNotOgiginalTweets(twitterUser.getId(), dateStart, dateEndTotal);
+            Map<String, Integer> userConnectionsMap = findConnectionsInTweets(tweetList);
 
-            Map<String, Integer> userConnectionsMap = new HashMap<>();
-            for (Tweet tweet: tweetList){
+            for (String conectedUser : userConnectionsMap.keySet()) {
+                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, conectedUser);
+                getUsersConnectionListInside(twitterUserList, userUserConnectionListInside, twitterUser, userConnectionsMap, conectedUser);
+                getUsersConnectionListInsideAndBig(twitterUserList, userUserConnectionListInsideandBig, twitterUser, userConnectionsMap, conectedUser);
 
-                User connectedUser = tweet.getRetweetedStatus().getUser();
-
-                //if(tweetList.stream().anyMatch(connectedUser::equals)){
-                userConnectionsMap.merge(connectedUser.getScreenName(), 1, Integer::sum);
-                // }
-            }
-            for(String conectedUser: userConnectionsMap.keySet()){
-                if(userConnectionsMap.get(conectedUser)>=10){
-                    userUserConnectionListAll.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
-                }
             }
         }
 
-        writeToCSV(userUserConnectionListAll, "userUserConections");
+        writeToCSV(userUserConnectionListAll, "userUserConnectionListAll");
+        writeToCSV(userUserConnectionListInside, "userUserConnectionListInside");
+        writeToCSV(userUserConnectionListInsideandBig, "userUserConnectionListInsideandBig");
 
     }
 
-    private void userLinkConnection(List<TwitterUser> twitterUserList, Date dateStart, Date dateEndTotal)  {
+    private Map<String, Integer> findConnectionsInTweets(List<Tweet> tweetList) {
+        Map<String, Integer> connectionsMap = new HashMap<>();
+        for (Tweet tweet : tweetList) {
+
+            User connectedUser = tweet.getRetweetedStatus().getUser();
+            connectionsMap.merge(connectedUser.getScreenName(), 1, Integer::sum);
+        }
+        return connectionsMap;
+    }
+
+    private void getUsersConnectionListAll(List<UserUserConnection> userUserConnectionListAll, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser) {
+        if (userConnectionsMap.get(conectedUser) >= 30) {
+            userUserConnectionListAll.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
+        }
+    }
+
+    private void getUsersConnectionListInside(List<TwitterUser> twitterUserList, List<UserUserConnection> userUserConnectionListInside, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser) {
+        if(twitterUserList.stream().map(TwitterUser::getScreenName).anyMatch(conectedUser::equals)){
+            userUserConnectionListInside.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
+        }
+    }
+    private void getUsersConnectionListInsideAndBig(List<TwitterUser> twitterUserList, List<UserUserConnection> userUserConnectionListInside, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser) {
+        if((twitterUserList.stream().map(TwitterUser::getScreenName).anyMatch(conectedUser::equals)
+                || userConnectionsMap.get(conectedUser) >= 30)
+                && twitterUser.getScreenName() != conectedUser){
+            userUserConnectionListInside.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
+        }
+    }
+
+    private void userLinkConnection(List<TwitterUser> twitterUserList, Date dateStart, Date dateEndTotal) {
 
         List<UserUserConnection> userUserConnectionListAll = new ArrayList<>();
         for (TwitterUser twitterUser : twitterUserList) {
@@ -116,22 +136,20 @@ public class NetworkService {
             System.out.println(twitterUser.getScreenName() + " : " + tweetList.size() + " : " + tweetTextURLList.size());
 
             Map<String, Integer> userConnectionsMap = new HashMap<>();
-            for(String tweetTextURL :tweetTextURLList){
+            for (String tweetTextURL : tweetTextURLList) {
                 try {
                     java.net.URL aURL = new URL(tweetTextURL);
-                    if(tweetTextURL.length()<=22 && aURL.getHost() != "m.in"){
+                    if (tweetTextURL.length() <= 22 && aURL.getHost() != "m.in") {
                         aURL = new URL(expandSingleLevel(aURL.toString()));
 //                        System.out.println("Im in short " + aURL);
                     }
-                    userConnectionsMap.merge(aURL.getHost(),1, Integer::sum );
+                    userConnectionsMap.merge(aURL.getHost(), 1, Integer::sum);
                 } catch (MalformedURLException e) {
-                    System.out.println( "url went wrong");
+                    System.out.println("url went wrong");
                 }
             }
-            for(String connectedDomain: userConnectionsMap.keySet()){
-                if(userConnectionsMap.get(connectedDomain)>=20){
-                    userUserConnectionListAll.add(new UserUserConnection(twitterUser.getScreenName(), connectedDomain, userConnectionsMap.get(connectedDomain)));
-                }
+            for (String connectedDomain : userConnectionsMap.keySet()) {
+                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, connectedDomain);
             }
 
 
@@ -146,7 +164,7 @@ public class NetworkService {
         HttpHead request = null;
         try {
             request = new HttpHead(url);
-            HttpResponse httpResponse =  client.execute(request);
+            HttpResponse httpResponse = client.execute(request);
 
             int statusCode = httpResponse.getStatusLine().getStatusCode();
             if (statusCode != 301 && statusCode != 302) {
@@ -157,7 +175,7 @@ public class NetworkService {
             String newUrl = headers[0].getValue();
             return newUrl;
         } catch (IllegalArgumentException | IOException uriEx) {
-            System.out.println("went bad..." + url +"..................................................");
+            System.out.println("went bad..." + url + "..................................................");
             return url;
         } finally {
             if (request != null) {
@@ -165,28 +183,28 @@ public class NetworkService {
             }
         }
     }
+
     URLConnection connectURL(String strURL) {
-        URLConnection conn =null;
+        URLConnection conn = null;
         try {
             URL inputURL = new URL(strURL);
             conn = inputURL.openConnection();
             int test = 0;
 
-        }catch(MalformedURLException e) {
+        } catch (MalformedURLException e) {
             System.out.println("Please input a valid URL");
-        }catch(IOException ioe) {
+        } catch (IOException ioe) {
             System.out.println("Can not connect to the URL");
         }
         return conn;
     }
-    private static final String CSV_SEPARATOR = "; ";
-    private static void writeToCSV(List<UserUserConnection> userUserConnectionListAll, String fileName)
-    {
-        try
-        {
+
+    private static final String CSV_SEPARATOR = " ";
+
+    private static void writeToCSV(List<UserUserConnection> userUserConnectionListAll, String fileName) {
+        try {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName + ".csv"), "UTF-8"));
-            for (UserUserConnection userUserConnection : userUserConnectionListAll)
-            {
+            for (UserUserConnection userUserConnection : userUserConnectionListAll) {
                 StringBuffer oneLine = new StringBuffer();
                 oneLine.append(userUserConnection.getUserScreenName());
                 oneLine.append(CSV_SEPARATOR);
@@ -198,10 +216,9 @@ public class NetworkService {
             }
             bw.flush();
             bw.close();
-        }
-        catch (UnsupportedEncodingException e) {}
-        catch (FileNotFoundException e){}
-        catch (IOException e){
+        } catch (UnsupportedEncodingException e) {
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("Opened File!");
         }
     }
