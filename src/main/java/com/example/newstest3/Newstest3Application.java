@@ -58,10 +58,10 @@ public class Newstest3Application
         //twitterService.updateTwitterUsersTweets();
         //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
 
-        extraDataService.fetchRetweetersofUsersbyClassificationandTime();
-        //researchService.saveAccountswithClassificationToJson();
-        //researchService.writeTweetswithRetweetersToJson();
-        //researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
+        //extraDataService.fetchRetweetersofUsersbyClassificationandTime();
+        researchService.saveAccountswithClassificationToJson();
+        researchService.writeTweetswithRetweetersToJson();
+        researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
 
 
         for (int i = 0; i < args.length; ++i) {

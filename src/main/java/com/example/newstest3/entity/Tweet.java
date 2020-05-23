@@ -59,19 +59,19 @@ public class Tweet {
     private int tweetTextHashtagsFetchedCount;
     private int tweetTextURLSFetchedCount;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "tweet")
     private List<TweetTextHashtag> tweetTextHashtags;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "tweet")
     private List<TweetTextURL> tweetTextURLS;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweet")
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL , mappedBy = "tweet")
     private List<Retweeter> tweetRetweeters;
 
     @ManyToOne
     private Tweet tweetParent;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tweetParent")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "tweetParent")
     private List<Tweet> tweetRetweets;
 
 
