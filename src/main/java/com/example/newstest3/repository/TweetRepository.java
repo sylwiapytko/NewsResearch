@@ -82,5 +82,22 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             "and t.retweetedFetchedRetweetersCount > 0")
     List<Long> findAllOriginalWithRetweetersByTwitterUserAndTime(Long userID, Date startDate, Date endDate);
 
+    @Query("SELECT t FROM Tweet t  " +
+            "JOIN TwitterUser u " +
+            "on u.id = t.twitterUser.id " +
+            "where u.id = :userID " +
+            "and t.createdAt > :startDate  " +
+            "and t.createdAt < :endDate " +
+            "and t.retweet = true " )
+    List<Tweet> findNotOgiginalTweets(Long userID, Date startDate, Date endDate);
 
+    @Query("SELECT t FROM Tweet t  " +
+            "JOIN TwitterUser u " +
+            "on u.id = t.twitterUser.id " +
+            "where u.id = :userID " +
+            "and t.createdAt > :startDate  " +
+            "and t.createdAt < :endDate " +
+            "and t.retweet = false " +
+            "and t.tweetTextURLSFetchedCount>0" )
+    List<Long> findOgiginalTweetswithURLs(Long userID, Date startDate, Date endDate);
 }
