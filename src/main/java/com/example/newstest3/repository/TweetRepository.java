@@ -91,7 +91,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
             "and t.retweet = true " )
     List<Tweet> findNotOgiginalTweets(Long userID, Date startDate, Date endDate);
 
-    @Query("SELECT t FROM Tweet t  " +
+    @Query("SELECT t.id FROM Tweet t  " +
             "JOIN TwitterUser u " +
             "on u.id = t.twitterUser.id " +
             "where u.id = :userID " +
