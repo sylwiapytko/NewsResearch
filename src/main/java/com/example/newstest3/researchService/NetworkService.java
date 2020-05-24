@@ -68,7 +68,7 @@ public class NetworkService {
 
         userUserConnections(twitterUserList, dateStart, dateEndTotal);
 
-//        userLinkConnection(twitterUserList, dateStart, dateEndTotal);
+       // userLinkConnection(twitterUserList, dateStart, dateEndTotal);
 
     }
 
@@ -83,16 +83,16 @@ public class NetworkService {
             Map<String, Integer> userConnectionsMap = findConnectionsInTweets(tweetList);
 
             for (String conectedUser : userConnectionsMap.keySet()) {
-                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, conectedUser);
+                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, conectedUser, 1);
                 getUsersConnectionListInside(twitterUserList, userUserConnectionListInside, twitterUser, userConnectionsMap, conectedUser);
-                getUsersConnectionListInsideAndBig(twitterUserList, userUserConnectionListInsideandBig, twitterUser, userConnectionsMap, conectedUser);
+                getUsersConnectionListInsideAndBigAndNoLoops(twitterUserList, userUserConnectionListInsideandBig, twitterUser, userConnectionsMap, conectedUser, 30);
 
             }
         }
 
         writeToCSV(userUserConnectionListAll, "userUserConnectionListAll");
         writeToCSV(userUserConnectionListInside, "userUserConnectionListInside");
-        writeToCSV(userUserConnectionListInsideandBig, "userUserConnectionListInsideandBig");
+        writeToCSV(userUserConnectionListInsideandBig, "userUserConnectionListInsideandBigAndExisting");
 
     }
 
@@ -106,8 +106,8 @@ public class NetworkService {
         return connectionsMap;
     }
 
-    private void getUsersConnectionListAll(List<UserUserConnection> userUserConnectionListAll, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser) {
-        if (userConnectionsMap.get(conectedUser) >= 30) {
+    private void getUsersConnectionListAll(List<UserUserConnection> userUserConnectionListAll, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser, Integer minOccurences) {
+        if (userConnectionsMap.get(conectedUser) >= minOccurences) {
             userUserConnectionListAll.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
         }
     }
@@ -117,10 +117,15 @@ public class NetworkService {
             userUserConnectionListInside.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
         }
     }
-    private void getUsersConnectionListInsideAndBig(List<TwitterUser> twitterUserList, List<UserUserConnection> userUserConnectionListInside, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser) {
+    private void getUsersConnectionListInsideAndBigAndNoLoops(List<TwitterUser> twitterUserList, List<UserUserConnection> userUserConnectionListInside, TwitterUser twitterUser, Map<String, Integer> userConnectionsMap, String conectedUser, Integer minOccurences) {
         if((twitterUserList.stream().map(TwitterUser::getScreenName).anyMatch(conectedUser::equals)
-                || userConnectionsMap.get(conectedUser) >= 30)
-                && twitterUser.getScreenName() != conectedUser){
+                || userConnectionsMap.get(conectedUser) >= minOccurences)
+                && !twitterUser.getScreenName().equals(conectedUser)){
+            userUserConnectionListInside.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
+        }
+        if((userUserConnectionListInside.stream().map(UserUserConnection::getRetweetedUserScreenName).anyMatch(conectedUser::equals)
+                && userConnectionsMap.get(conectedUser) < minOccurences)
+                && !twitterUser.getScreenName().equals(conectedUser)){
             userUserConnectionListInside.add(new UserUserConnection(twitterUser.getScreenName(), conectedUser, userConnectionsMap.get(conectedUser)));
         }
     }
@@ -139,9 +144,8 @@ public class NetworkService {
             for (String tweetTextURL : tweetTextURLList) {
                 try {
                     java.net.URL aURL = new URL(tweetTextURL);
-                    if (tweetTextURL.length() <= 22 && aURL.getHost() != "m.in") {
+                    if (tweetTextURL.length() <= 22 && !aURL.toString().equals("http://m.in")) {
                         aURL = new URL(expandSingleLevel(aURL.toString()));
-//                        System.out.println("Im in short " + aURL);
                     }
                     userConnectionsMap.merge(aURL.getHost(), 1, Integer::sum);
                 } catch (MalformedURLException e) {
@@ -149,7 +153,7 @@ public class NetworkService {
                 }
             }
             for (String connectedDomain : userConnectionsMap.keySet()) {
-                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, connectedDomain);
+                getUsersConnectionListAll(userUserConnectionListAll, twitterUser, userConnectionsMap, connectedDomain, 30);
             }
 
 
@@ -175,7 +179,7 @@ public class NetworkService {
             String newUrl = headers[0].getValue();
             return newUrl;
         } catch (IllegalArgumentException | IOException uriEx) {
-            System.out.println("went bad..." + url + "..................................................");
+            System.out.println("went bad... " + url + " ..................................................");
             return url;
         } finally {
             if (request != null) {
