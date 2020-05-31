@@ -65,7 +65,7 @@ public class Tweet {
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "tweet")
     private List<TweetTextURL> tweetTextURLS;
 
-    @OneToMany(fetch=FetchType.LAZY , mappedBy = "tweet")
+    @OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy = "tweet")
     private List<Retweeter> tweetRetweeters;
 
     @ManyToOne

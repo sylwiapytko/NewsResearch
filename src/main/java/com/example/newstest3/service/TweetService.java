@@ -72,7 +72,7 @@ public class TweetService {
     public List<Tweet> fetchRetweetersofUsersbyClassificationandTime(AccountClassification accountClassification
             , Date dateStart, Date dateEnd) {
 
-        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(accountClassification, dateStart, dateEnd);
+        List<Tweet> tweetList = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndNoRetweetersReallyFetched(accountClassification, dateStart, dateEnd);
 
         return  fetchRetweeters(accountClassification, dateStart, dateEnd, tweetList);
 

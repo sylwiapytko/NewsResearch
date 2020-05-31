@@ -22,7 +22,7 @@ public class ExtraDataService {
 
 
     public void fetchRetweetersofUsersbyClassificationandTime() {
-        String dateStartString = "22/03/2020 00:00";
+        String dateStartString = "20/03/2020 00:00";
         String dateEndTotalString = "11/04/2020 00:00";
 
         Date dateStart = utils.formatStringtoDate(dateStartString);
@@ -32,13 +32,15 @@ public class ExtraDataService {
         List<Tweet> tweetListbig = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(AccountClassification.BIGMAINSTREAM, dateStart, dateEndTotal);
         List<Tweet> tweetListMS = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(AccountClassification.MAINSTREAM, dateStart, dateEndTotal);
         List<Tweet> tweetListJUNK = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndZeroRetweetersFetched(AccountClassification.JUNK, dateStart, dateEndTotal);
+        List<Tweet> tweetListFACTCHECK = tweetRepository.findTweetsByAccountClassificationAndTimeParamsAndNoRetweetersReallyFetched(AccountClassification.FACTCHECK, dateStart, dateEndTotal);
         System.out.println("bigms "+ tweetListbig.size() +" time " + tweetListbig.size()/3  +" min " + (tweetListbig.size()/3)/60 + " h" );
         System.out.println("ms "+ tweetListMS.size() +" time " + tweetListMS.size()/3  +" min " + (tweetListMS.size()/3)/60 + " h" );
         System.out.println("jk " + tweetListJUNK.size() + "time " + tweetListJUNK.size()/3 + " min " +(tweetListJUNK.size()/3)/60 + " h");
+        System.out.println("fc " + tweetListFACTCHECK.size() + "time " + tweetListFACTCHECK.size()/3 + " min " +(tweetListFACTCHECK.size()/3)/60 + " h");
         while (dateEnd.compareTo(dateEndTotal) <= 0) {
-            //tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.BIGMAINSTREAM, dateStart, dateEnd);
-            //tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.MAINSTREAM, dateStart, dateEnd);
-            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.JUNK, dateStart, dateEnd);
+            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.BIGMAINSTREAM, dateStart, dateEnd);
+            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.MAINSTREAM, dateStart, dateEnd);
+            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.FACTCHECK, dateStart, dateEnd);
             dateStart = utils.addHoursToJavaUtilDate(dateStart, 1);
             dateEnd = utils.addHoursToJavaUtilDate(dateStart, 1);
         }
