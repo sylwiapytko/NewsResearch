@@ -2,6 +2,7 @@ package com.example.newstest3;
 
 import com.example.newstest3.entity.AccountClassification;
 import com.example.newstest3.researchService.ExtraDataService;
+import com.example.newstest3.researchService.NetworkService;
 import com.example.newstest3.researchService.ResearchService;
 import com.example.newstest3.service.TweetService;
 import com.example.newstest3.service.TwitterService;
@@ -43,6 +44,9 @@ public class Newstest3Application
     @Autowired
     ApplicationArguments applicationArguments;
 
+    @Autowired
+    NetworkService networkService;
+
 
     public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
@@ -58,10 +62,13 @@ public class Newstest3Application
         //twitterService.updateTwitterUsersTweets();
         //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
 
-        extraDataService.fetchRetweetersofUsersbyClassificationandTime();
+        //extraDataService.fetchRetweetersofUsersbyClassificationandTime();
         //researchService.saveAccountswithClassificationToJson();
-        //researchService.writeTweetswithRetweetersToJson();
-        //researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
+       // researchService.writeTweetswithRetweetersToJson();
+       // researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
+
+        networkService.fetchGraphEdges();
+
 
 
         for (int i = 0; i < args.length; ++i) {

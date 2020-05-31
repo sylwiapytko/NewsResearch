@@ -20,8 +20,9 @@ public class ExtraDataService {
     @Autowired
     TweetRepository tweetRepository;
 
+
     public void fetchRetweetersofUsersbyClassificationandTime() {
-        String dateStartString = "24/03/2020 00:00";
+        String dateStartString = "22/03/2020 00:00";
         String dateEndTotalString = "11/04/2020 00:00";
 
         Date dateStart = utils.formatStringtoDate(dateStartString);
@@ -35,8 +36,8 @@ public class ExtraDataService {
         System.out.println("ms "+ tweetListMS.size() +" time " + tweetListMS.size()/3  +" min " + (tweetListMS.size()/3)/60 + " h" );
         System.out.println("jk " + tweetListJUNK.size() + "time " + tweetListJUNK.size()/3 + " min " +(tweetListJUNK.size()/3)/60 + " h");
         while (dateEnd.compareTo(dateEndTotal) <= 0) {
-            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.BIGMAINSTREAM, dateStart, dateEnd);
-            tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.MAINSTREAM, dateStart, dateEnd);
+            //tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.BIGMAINSTREAM, dateStart, dateEnd);
+            //tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.MAINSTREAM, dateStart, dateEnd);
             tweetService.fetchRetweetersofUsersbyClassificationandTime(AccountClassification.JUNK, dateStart, dateEnd);
             dateStart = utils.addHoursToJavaUtilDate(dateStart, 1);
             dateEnd = utils.addHoursToJavaUtilDate(dateStart, 1);
