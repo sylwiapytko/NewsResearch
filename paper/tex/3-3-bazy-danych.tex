@@ -1,0 +1,35 @@
+\subsection{Przegląd istniejących baz danych}
+Poniżej zostaną przedstawione wymagania które musi spełniać zbiór danych aby było możliwe użycie go w\,celu badań możliwości automatycznej klasyfikacji informacji. Dodatkowo zostaną zaprezentowane przykładowe bazy danych które są udostępnione w\,tym celu oraz posiadają już sprawdzone etykiety.
+\subsubsection{Wymagania korpusu danych}
+Przy rozpoczynaniu pracy nad automatycznym wykrywaniem fałszywych informacji najpierw należy posiadać odpowiedni zbiór odpowiednio oznaczonych danych. Takimi danymi mogą być całe artykuły, tytuły takich artykułów czy posty w\,mediach społecznościowych. Ważne jest jednak, aby taki korpus był spójny i\,trzymał się również kilku innych zasad. Zestaw dziewięciu takich zasad zebrali w\,swojej pracy Rubin, Conroy i\,Chen\cite{rubin2015deception}.
+\begin{enumerate}
+    \item Korpus zawsze powinien składać się z\,zarówno prawdziwych jak I fałszywych instancji. Jest to niezbędne, aby można było podać go jako zbiór służący do nauki modelu.
+    \item Jeśli chcemy zastosować NLP dane powinny występować w\,formie tekstu.
+    \item Powinniśmy mieć pewność na temat poprawnego oznakowania naszych informacji jako prawdziwe lub fałszywe. O ile jest to prostsze w\,przypadku brania danych ze źródeł uważanych powszechnie za wiarygodne, tak w\,przypadku korzystania z\,metody crowdsoursingu należy oznaczać jedynie prawdopodobieństwo prawdziwości informacji.
+    \item Należy zwrócić uwagę, aby teksty były podobnej długości. Nie można mieszać krótkich form takich jak posty w\,mediach społecznościach z\,długimi artykułami.
+    \item Teksty powinny być homogeniczne w\,stylu oraz tematyce. Należy zbierać te same typy publikowanych informacji w\,rozdzieleniu na typ pisarski, różnicą jest czy autorem jest dziennikarz lub czy jest pisane stylem potocznym. Ważne jest wybranie z\,góry określonej tematyki lub zbioru tematów, o których będą mówić nasze zebrane informacje.
+    \item Należy określić dokładny zakres czasowy z\,którego będą zebrane informacje.
+    \item Powinno się zwrócić również uwagę czy cel opublikowania tych informacji był ten sam. Nie powinno się na przykład mieszać standardowych tekstów z\,tymi o zabarwieniu humorystycznym lub satyrycznym.
+    \item Ważne są pragmatyczne cechy źródeł tekstów takie jak publiczny i\,bezpłatny dostęp do nich oraz łatwość w\,przetwarzaniu.
+    \item Warto zwrócić uwagę na różnice językowe i\,kulturowe.
+
+\end{enumerate}
+
+
+\subsubsection{Przykładowe bazy danych}
+    \par LIAR
+    - dane pobrane przez API udostępnione przez PolitiFact. Są to krótkie zdania pochodzące z\,różnego rodzaju źródeł takich jak artykuły, wywiady lub przemowy polityków. Każde zdanie z\,bazy ponad 12 tysięcy zostało ocenione manualnie przez człowieka\cite{wang2017liar}.
+    \par CREDBANK  - baza zawierająca 60 milionów postów z\,platformy Twitter obejmująca zakres trzech miesięcy w\,2015 roku \cite{mitra2015credbank}. Posty te zostały zakwalifikowane do odpowiedniego z\,ponad tysiąca wydarzeń a\,każde wydarzenie zostało oznaczone przez 30 użytkowników Amazon Mechanical Turk .
+    \par BuzzFeedNews
+    \footnote{\url{https://github.com/BuzzFeedNews/2016-10-facebook-fact-check/tree/master/data}} 
+    - zawiera posty z\,Facebooka z\,tygodni w\,roku 2016 bliskich wyborom prezydenckim w\,USA. Każdy post był oceniony przez dziennikarzy BuzzFeed. Posty były pobrane z\,niewielkiej ilośći zróżnicowanych źródeł.
+    \par BD Detector
+    \footnote{\url{https://www.kaggle.com/mrisdal/fake-news}}
+    - dane pobrane przez wtyczkę wyszukiwarki o tej samej nazwie. Szuka ona linków na stronach i\,sprawdza powiązania z\,manualnie stworzoną bazą danych na temat niewiarygodnych źródeł.  Aplikacja nie jest już jednak utrzymywana przez deweloperów.
+    \par The Global Datbase of Events Language and Tone
+    \footnote{\url{https://www.gdeltproject.org}}
+    – projekt, który pobiera informacje pojawiające się na platformach z\,ponad 100 krajów świata. Jego celem jest monitorowanie wydarzeń na świecie i\,identyfikuje związane z\,tymi wydarzeniami osoby, miejsca i\,informacje oraz emocje jakie wywołują one w\,mediach. 
+    \par Media Bias Fact Check
+    \footnote{\url{https://mediabiasfactcheck.com}}
+    - portal dokonujący oceny stronniczości politycznej innych źródeł informacji. Dokonuje również podziału na media naukowe oraz pseudonaukowe. Wskazuje też na źródła skrajnie stronnicze lub wręcz intencjonalnie kłamliwe jak również podaje listę portali określających samych siebie jako satyryczne lub humorystyczne. 
+
