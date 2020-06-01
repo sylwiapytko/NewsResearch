@@ -142,6 +142,12 @@
 % in ToC, LoF and LoT
 %--------------------------------
 \usepackage{xurl} % break line url whereever
+\usepackage{tabulary}
+
+\usepackage[newcommands]{ragged2e}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \RequirePackage{hyperref}
 
 \hypersetup{
