@@ -1,0 +1,30 @@
+\subsection{Wyniki przeprowadzonych badań}
+Poniżej zostaną przedstawione i omówione wyniki otrzymane z przeprowadzonych badań. Kolejne badania zostaną przedstawione w takiej kolejności w jakiej były opisane w podrozdziale wyżej. 
+\subsubsection{Precyzja modelu - walidacja krzyżowa}
+Pierwszym eksperymentem, który wykonano była 5-krotna walidacja krzyżowa z\,zasto- sowaniem regresji logistycznej, gdzie do każdej iteracji podano 80\% danych do zbioru uczącego. Taka metoda dała zadowalająco wysokie wyniki. Dla zbioru pełnego precyzja wyniosła 0,94\,przy prawie nieznaczącym odchyleniu wynoszącym 0.001. Dla zbioru intersekcji wynik był niewiele słabszy, otrzymawszy precyzję 0.91. 
+\par
+	Dla algorytmu harmonicznego uzyskano precyzję 0.92 dla zbioru pełnego i\,0.89 dla zbioru intersekcji. Przy wszystkich wynikach odchylenie standardowe było nieznacząco małe. Pełne wyniki tego eksperymentu znajdują się w\,tabeli poniżej Tabela 10 Wyniki klasyfikacji krzyżowej 
+\par
+Na podstawie tego badania można założyć, że przeprowadzenie automatycznej klasyfikacji na zbiorze składającym się z\,postów i\,użytkowników ich udostępniających jest możliwe.  Największą precyzję przy zachowaniu nieznacząco małego odchylenia standardowego uzyskała metoda regresji liniowej wykonana na pełnym zbiorze. Okazuje się również, że przeprowadzenie regresji liniowej na zbiorze intersekcji jest równie dobrym sposobem klasyfikacji jak przeprowadzenie algorytmu harmonicznego na pełnym zbiorze. Jednak, aby zobaczyć jak te algorytmy zachowują się dla różnych wielkości zbiorów danych uczących w\,stosunku do danych testowych zostaną przeprowadzone kolejne badania. 
+
+\begin{table}[!h]
+\centering
+\caption{Wyniki klasyfikacji z walidacji krzyżowej - porównanie regresjii logistycznej oraz algorytmu harmonicznego dla dwóch rodzajów zbiorów.} \label{tab:walidacjakrzyzowa}
+\begin{tabular}{|m{3cm}|R{2,5cm}|R{2,5cm}|R{2,5cm}|R{2,5cm}|} 
+\hline
+~ & \multicolumn{2}{l|}{Regresja logistyczna} & \multicolumn{2}{l|}{Algorytm harmoniczny} \\ 
+\hline
+Typ zbioru & Precyzja & Odchylenie standardowe & Precyzja & Odchylenie standardowe \\ 
+\hline
+Zbiór pełny & 0,939 & 0,001 & 0.918 & 0,002 \\ 
+\hline
+Zbiór intersekcji & 0.914 & 0.004 & 0.888 & 0.003 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Wielkość zbioru uczącego}
+Kolejną serią eksperymentów było sprawdzenie jak mały zbiór danych uczących w\,stosunku do wszystkich danych wystarczy, aby uzyskać zadowalające wyniki klasyfikacji. Biorąc część zbioru do zbioru uczącego pozostałą część zbioru poddawano do testowania modelu, jeśli więc brano 10\% postów do zbioru uczącego pozostałe 90\% znajdowało się w\,zbiorze testowym na którym badano precyzję wyuczonego modelu.
+ 
+Badania przeprowadzono zarówno dla regresji liniowej jak i\,algorytmu harmonicznego. Zakumulowane wyniki przedstawiono w\,tabelach. Analizy porównawczej dokonywano przede wszystkim wobec trafności algorytmów porównując je dla tych samych zbiorów danych. Dla lepszej wizualizacji otrzymanych wyników użyto również wykresów przedstawiających otrzymaną precyzję wraz z\,odchyleniem dla różnych wielkości zbioru. Oś x przedstawiającą wielkość zbioru dla czytelności wykresu przedstawiono w\,skali logarytmicznej. 
+

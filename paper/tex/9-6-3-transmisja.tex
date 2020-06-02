@@ -1,0 +1,35 @@
+
+\subsubsection{Transmisja wiedzy w\,modelu}
+W ostatnim badaniu chciano sprawdzić, jak sprawdzają się powyżej omawiane algorytmy w\,propagowaniu wiedzy o\,możliwej klasyfikacji postów pochodzących z\,różnych kont. W\,tym celu odrzucano do zbioru testowego wszystkie posty należące do wybranej liczby określonych kont. Wyniki nie okazały się być jednak obiecujące. Regresja logistyczna uzyskała średnie wyniki niewiele wyższe od losowego zgadywania. 
+\par
+Dla badania przy odrzuceniu jednego konta do zbioru testowego średnia precyzja regresji logistycznej dla zbioru pełnego wynosiła 0.70 oraz dla zbioru intersekcji 0,68, dla obu przypadków odchylenie wynosi 0,3 
+Wyniki nie są wcale lepsze przy użyciu algorytmu harmonicznego wykorzystującego dane w\,postaci grafu. Średnie wyniki okazały się być równie niskie wynosząc 0,65 dla zbioru pełnego oraz bardzo niskie, wręcz błędne 0,3 dla zbioru intersekcji. W\,tym jednak przypadku odchylenie precyzji pomiędzy przypadkami jest ogromne sięgając 0,4 dla zbioru pełnego jak i\,dla zbioru intersekcji. 
+
+
+
+
+\begin{table}[!h]
+\centering
+\caption{Wyniki badań transmisji wiedzy - porównanie precyzji dla dwóch typów badań, odrzucenie jednego konta lub połowy kont.} \label{tab:precyzjazbiorintersekcji}
+\begin{tabular}{|L{2cm}|L{2cm}|R{1,8cm}|R{2,5cm}|R{1,8cm}|R{2,5cm}|} 
+\hline
+~ & ~  & \multicolumn{2}{l|}{Regresja logistyczna} & \multicolumn{2}{l|}{Algorytm harmoniczny} \\ 
+\hline
+Typ \mbox{badania} & Typ zbioru & Precyzja & Odchylenie standardowe & Precyzja & Odchylenie standardowe \\ 
+\hline
+\multirow{2}{2cm}{Odrzucenie jednego konta} & Zbiór pełny & 0,700 & 0,372 & 0,658 & 0,403 \\ 
+\cline{2-6}
+ & Zbiór \mbox{intersekcji} & 0,683 & 0,355 & 0,300 & 0,472 \\ 
+\hline
+\multirow{2}{2cm}{Odrzucenie połowy kont} & Zbiór pełny & 0,645 & 0.098 & 0,647 & 0,125 \\ 
+\cline{2-6}
+ & Zbiór \mbox{intersekcji} & 0,570 & 0,097 & 0,504 & 0,124 \\
+\hline
+\end{tabular}
+\end{table}
+
+\par
+Przyglądając się więc, dokładniej poszczególnym wynikom obu algorytmów można zauważyć, że dla niektórych przypadków precyzja klasyfikacji była bardzo wysoka sięgając nawet 100 procent, ale dla niektórych wynosiła praktycznie zero. Oznacza to, że w\,przypadku postów pochodzących z\,niektórych stron albo nie było istniejącego połączenia z\,zaklasyfikowanymi danymi albo też połączenia te wskazywały na inną klasę niż zostało to pierwotnie założone. W\,praktyce, w\,omawianym przypadku, oznacza to, że albo niektóre konta nie mają wspólnych udostępniających użytkowników z\,pozostałymi. Albo ich udostępniający głównie dokonują interakcji z\,postami publikowanymi przez strony zakwalifikowane w\,tej pracy do przeciwnej klasy. Taka sytuacja może w\,szczególności występować w\,zbiorze intersekcji, gdzie udostępnień jest znacznie mniej. 
+\par
+
+Jak można się było spodziewać, dokonując badań przy odrzuceniu postów z\,połowy kont do zbioru testującego nie otrzymano lepszych wyników. Jedynie odchylenie zmalało jest to jednak zasługa zmieszania różnego rodzaju kont, które w\,rezultacie dały podobnie losowe wyniki. 

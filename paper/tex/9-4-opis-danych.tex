@@ -1,0 +1,42 @@
+\subsection{Opis przygotowania danych }
+Do badań klasyfikacji postów pobrano 21950 tweetów z\,okresu 22.03-10.04.2020. Posty te są zaklasyfikowane do odpowiedniej z\,dwóch klas, Nierzetelne lub Mainstream, w\,zależności od przynależności do klasyfikacji konta, z\,którego pochodzą. Jednak do przeprowadzenia automatycznej klasyfikacji możliwe jest użycie jedynie tych postów które posiadają przynajmniej jedno udostępnienie. Takich postów pobrano 15529.  Wśród nich otrzymano 5563 postów pochodzących z\,kont Nierzetelnych oraz 9966 postów z\,kont Mainstream. Sumując wszystkie zebrane udostępnienia zebrano ich łącznie prawie 100 tysięcy. W\,tym 41 tys. oraz 56 tys. odpowiednio dla kont z\,powyższych kategorii. Zestawienie danych można znaleźć w\,tabeli \ref{tab:zbiordanych} zamieszczonej poniżej.
+\begin{table}[!h]
+\centering
+\caption{Analiza zebranych danych do przeprowadzenia klasyfikacji.} \label{tab:zbiordanych}
+\begin{tabular}{|m{4cm}|R{2,5cm}|R{2,5cm}|R{2,5cm}|} 
+\hline
+~ & Wszystkie & Nierzetelne & Mainstream \\ 
+\hline
+Liczba wszystkich zebranych tweetów & 21950 & 7605 & 14345 \\ 
+\hline
+Tweety udostępnione przynajmniej raz & 15524 & 5560 & 9964 \\ 
+\hline
+Liczba udostępnień & 97820 & 41102 & 56718 \\ 
+\hline
+Unikalni \mbox{udostępniający} & 11477 & 2031 & 7287 \\
+\hline
+\end{tabular}
+\end{table}
+\par
+Dla opisanych wyżej danych udało się pobrać informacje o\,11 tysiącach unikalnych użytkownikach. W\,tym można zauważyć, że około 60\% tych użytkowników dokonywało udostępnienia tylko postów należących do kont mainstreamowch. Dwa tysiące osób udostępniało wyłącznie posty publikowane przez konta okreslone w\,tej pracy jako Nierzetelne. Natomiast tylko niewiele więcej użytkowników udostępniało posty obu klas kont.  
+\subsubsection{Opis używanych zbiorów danych}
+Na podstawie tych zebranych danych stworzono dwa zbiory służące do przeprowadzania algorytmów klasyfikacji. Pierwszym z\,nich jest zbiór zawierający wszystkie posty które były udostępnione przynajmniej raz, będzie on nazywany zbiorem pełnym. Zawiera on obiekty którymi są posty wraz z\,listą wszystkich użytkowników którzy go udostępnili. Zbiór ten ma wielkość 12 tysięcy postów.
+\par
+Drugi zbiór jest podzbiorem pierwszego, ale opiera się na założeniu wykorzystnia tylko takich użytkowników którzy udostępnili przynajmniej jeden post z\,klasy nierzetelny i\,przynajmniej jeden post z\,klasy mainstream. Jest więc to zbiór zawierający tylko te posty, które były udostępnione przez powyżej opisanych użytkowników. Zawiera on 12 tys. postów udostępnionych 54 tys. razy przez 2159 unikalnych użytkowników. Będzie on nazywany zbiorem intersekcji, z\,powodu pochodzenia zbioru użytkowników.
+\par
+Analizę porównawczą zbioru pełnego oraz zbioru intersekcji przedstawiono w\,tabeli\,\ref{tab:zbiorydanychklasyfikacja}.
+\begin{table}[!h]
+\centering
+\caption{Tabela porównawcza zbiorów danych poddanych klasyfikacji.} \label{tab:zbiorydanychklasyfikacja}
+\begin{tabular}{|m{4cm}|R{2,5cm}|R{2,5cm}|} 
+\hline
+~ & Zbiór pełny & Zbiór \mbox{intersekcji} \\ 
+\hline
+Liczba tweetów & 15524 & 12442 \\ 
+\hline
+Udostępnienia \mbox{tweetów} & 97820 & 54318 \\ 
+\hline
+Unikalni  \mbox{udostępniający} & 11477 & 2159 \\
+\hline
+\end{tabular}
+\end{table}
