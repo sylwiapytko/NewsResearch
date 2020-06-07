@@ -1,0 +1,6 @@
+\subsection{Opis implementacji pobrania danych}
+Aby dokonać pobrania danych stworzono system informatyczny dedykowany do tego zadania. Użyto w tym celu języka Java z zastosowaniem framework Spring Boot. Podjęto taka decyzje ponieważ jest to język dostosowany do zadania jakim jest wysyłanie zapytań do zewnętrznego api oraz zapisywanie danych do baz danych oraz jest dobrze znany autorowi.  
+\par
+Dla ułatwienia pracy przy korzystaniu z\,Twitter API\footnote{\url{http://twitter4j.org}} użyto ogólnodostępną bibliotekę Twitter4J  stworzoną dla języka Java i\,objętą licencją Apache Licence 2.0. Biblioteka ta udostępnia klasy oraz metody wspomagające integrację nowej aplikacji z\,serwisem Twitter. Dzięki jej zaadoptowaniu w\,nowej aplikacji nie musiały znaleźć się bezpośrednie zapytania http co zwiększyło czytelność kodu.
+\par
+Zebrane dane zapisywano do lokalnej bazy danych PostgreSQL. Jest to jedna z najpopularniejszych darmowych relacyjnychbaz danych. 

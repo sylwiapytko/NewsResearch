@@ -1,6 +1,6 @@
 
 \subsection{Wybór platformy social media}
-Dwoma największymi mediami społecznościowymi w\,Polsce udostępniającymi funkcję dzielenia się informacjami tekstowymi przez użytkowników są Facebook oraz Twitter\,\cite{GemiusSerwisy2019}. Platformy te były już wykorzystywane w\,celu zbierania danych do badań, ponieważ są doskonałym źródłami, z\,których można uzyskać wiedzę na temat preferencji użytkowników. Między innymi z\,tych powodów postanowiono przyjrzeć się możliwościom jakie dają wystawione przez nie API, w\,celu uzyskania danych do badań przeprowadzanych w\,tej pracy.
+Dwoma największymi mediami społecznościowymi w\,Polsce udostępniającymi funkcję dzielenia się informacjami tekstowymi przez użytkowników są Facebook oraz Twitter\,\cite{GemiusInternet2019}. Platformy te były już wykorzystywane w\,celu zbierania danych do badań, ponieważ są doskonałym źródłami, z\,których można uzyskać wiedzę na temat preferencji użytkowników. Między innymi z\,tych powodów postanowiono przyjrzeć się możliwościom jakie dają wystawione przez nie API, w\,celu uzyskania danych do badań przeprowadzanych w\,tej pracy.
 
 \subsubsection{Facebook API}
 Czytając prace badawcze na temat fałszywych informacji z\,ostatnich lat wiele z\,nich wykorzystuje jako źródło do pobrania danych służących analizie tego zagadnienia, platformę Facebook oraz należące do niej API\footnote{\url{https://developers.facebook.com}}. Było ono wygodnym narzędziem pozwalającym na pobranie informacji o publicznym koncie takie jak listy osób, które je ‘lubią’ lub obserwują. Istniała również możliwość pobierania publicznych postów opublikowanych na dowolnym publicznym koncie wraz z\,podłączonymi komentarzami, reakcjami oraz statystykami udostępnień. Użycie tych funkcji było udostępnione dla każdego uwierzytelnionego użytkownika, tak jak dostępne są dla niego w\,przypadku korzystania z\,platformy lub aplikacji mobilnej. Dzięki darmowemu oraz wszechstronnemu dostępowi do informacji publikowanych jako publiczne przez użytkowników Facebook API było wygodnym narzędziem służących do celów zbierania danych o informacjach publikowanych w\,mediach społecznościowych oraz ich popularności wśród odbiorców. Dzięki temu powstało kilka prac podejmujących próbę rozpoznania wielkości problemu jakim są fałszywe informacje w\,mediach społecznościowych oraz szukających rozwiązania na ich automatyczne rozpoznawanie. 
@@ -28,39 +28,4 @@ Pobierz listę identyfikatorów retweeterów tweeta & GET statuses/ retweeters/i
 \end{tabular}
 \end{table}
 
-\newpage
-Dla ułatwienia pracy przy korzystaniu z\,Twitter API\footnote{\url{http://twitter4j.org}} użyto ogólnodostępną bibliotekę Twitter4J  stworzoną dla języka Java i\,objętą licencją Apache Licence 2.0. Biblioteka ta udostępnia klasy oraz metody wspomagające integrację nowej aplikacji z\,serwisem Twitter. Dzięki jej zaadoptowaniu w\,nowej aplikacji nie musiały znaleźć się bezpośrednie zapytania http co zwiększyło czytelność kodu. 
 
-\subsection{Słownik wyrażeń}
-Poniżej zostaną przedstawione wybrane słowa o szczególnym znaczeniu dla platformy Twitter. Większość z\,nich pochodzi z\,języka angielskiego lub jest neologizmami. Z\,tego powodu w\,tekście pracy będą używane również polskie synonimy tych słów. Dodatkowo ze względu na specyficzne ich znaczenie, zostanie przedstawiony ich opis.
-
-\begin{table}[!h] \label{tab:slowniktwitter} \centering
-\caption{Słownik domenowy portalu Twitter.}
-\begin{tabular} { | m{2cm} | m{4,5cm}| m{7cm} | } \hline
-Słowo & Używane synonimy & Opis \\  \hline \hline
-Konto & Użytkownik, osoba,
-  profil. Tutaj też: media, serwis, źródło. & Konto
-  znajdujące się na platformie tweeter, może należeć do prywatnego użytkownika
-  lub do serwisu internetowego. Zawiera informacje o sobie, swoje tweety oraz
-  retweety. \\ 
-\hline
-Follower & Subskrybent, śledzący. & Użytkownik który
-  wyraził chęć otrzymywania tweetów konta śledzonego na swojej głównej stronie
-  przeglądania. \\ 
-\hline
-Tweet & Post, status,
-  treść. & Krótka wiadomość
-  tekstowa i/lub zawierająca inną formę medialną wyrażająca informację lub
-  opinię użytkownika, który go publikuje. \\ 
-\hline
-Retweet & Udostępnienie,
-  \mbox{podanie dalej.} & Opublikowanie postu
-  stworzonego przez innego użytkownika na swoim koncie. Ma na celu przedstawienie
-  swojej opinii w\,stosunku do jego treści lub chęć rozpowszechnienia
-  udostępnianego tweeta. Używane jako czasownik oraz rzeczownik. \\ 
-\hline
-Retweeter & Udostępniający. & Użytkownik
-  który retweetuje tweet. \\
-\hline
-\end{tabular}
-\end{table}
