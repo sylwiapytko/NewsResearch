@@ -23,20 +23,18 @@
 % Strona tytułowa
 %--------------------------------------
 \MasterThesis % Dla pracy inżynierskiej mamy \EngineerThesis
-\instytut{XXXXXX}
-\kierunek{XXXXXX}
-\specjalnosc{XXXXXX}
+\instytut{Informatyki}
+\kierunek{Informatyka}
+\specjalnosc{Inżynieria Systemów Informatycznych}
 \title{
-    Niepotrzebnie długi i skomplikowany tytuł pracy \\
-    trudny do przeczytania, zrozumienia i wymówienia
+    Badanie nierzetelnych informacji w mediach społecznościowych\\ i ich automatyczna klasyfikacja na podstawie kontekstu
 }
 \engtitle{ % Tytuł po angielsku do angielskiego streszczenia
-    Unnecessarily long and complicated thesis' title \\
-    difficult to read, understand and pronounce
+    Analysis of fake news in social media and their automatized\\ context-based classification
 }
-\author{\{Imię i Nazwisko\}}
-\album{XXXXXX}
-\promotor{XXXXXX}
+\author{Sylwia Genowefa Pytko}
+\album{296179}
+\promotor{prof. Piotr Gawrysiak}
 \date{\the\year}
 \maketitle
 
@@ -44,15 +42,15 @@
 % Streszczenie po polsku
 %--------------------------------------
 \cleardoublepage % Zaczynamy od nieparzystej strony
-\streszczenie \lipsum[1-3]
-\slowakluczowe XXX, XXX, XXX
+\streszczenie W ostatnich latach rozprzestrzenianie się nierzetelnych informacji w mediach społecznościowych stało się poważnym problemem, jednak nadal mało inicjatyw podejmuje się rozwiązania tego problemu w sposób automatyczny. W ramach niniejszej pracy zostały przedstawione czynniki sprzyjające rozprzestrzenianiu się nierzetelnych informacji w Internecie oraz zostały omówione sposoby rozpoznawania ich w sposób zarówno manualny jak i automatyczny. Głównym celem pracy jest analiza danych polskojęzycznych pobranych z platformy Twitter w celu wykrycia charakterystycznych właściwości nierzetelnych informacji oraz dokonanie badania automatycznej klasyfikacji postów w mediach społecznościowych na podstawie danych kontekstowych jakimi są użytkownicy je udostępniający. Wyniki przeprowadzonych badań w tej pracy pokazują obiecujące wyniki dalszego rozwoju automatycznego rozpoznawania informacji.
+\slowakluczowe klasyfikacja, fałszywe informacje, dezinformacja
 
 %--------------------------------------
 % Streszczenie po angielsku
 %--------------------------------------
 \newpage
-\abstract \kant[1-3]
-\keywords XXX, XXX, XXX
+\abstract Last few years the spread of fake news in social media became a massive problem, however attempts to automatize the process of their classification are still scarce. This thesis consists of presenting factors that impact the spread of fake news on the Internet and analyses methods of discerning them, both manually and automatically. The main purpose of the thesis is an analysis of Polish language Twitter entries in order to detect defining characteristics of fake news and attempt to build an automatic classification system based on the context that takes the form of users spreading them. Results of the aforementioned study show a promise regarding possibilities of further development of automatic information recognition.
+\keywords classification, fake news, disinformation
 
 %--------------------------------------
 % Oświadczenie o autorstwie
@@ -85,11 +83,12 @@
 \input{tex/5-2-klasyfikacja-mediow}
 \input{tex/5-3-dezinformacja-media}
 \input{tex/6-1-projekt}
-\input{tex/6-2-wybor-danych.tex}
 \input{tex/6-3-wybor-zrodla}
-\input{tex/6-4-slownik-wyrazen}
 \input{tex/6-5-java-opis}
 \input{tex/6-6-python-opis}
+\input{tex/6-4-slownik-wyrazen}
+
+\input{tex/6-2-wybor-danych.tex}
 \input{tex/7-1-dostepnosc-danych}
 \input{tex/7-2-5-dane-twitter}
 \input{tex/8-1-analiza-danych}
