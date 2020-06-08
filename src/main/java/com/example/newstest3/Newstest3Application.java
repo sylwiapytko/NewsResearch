@@ -70,11 +70,6 @@ public class Newstest3Application
         networkService.fetchGraphEdges();
 
 
-
-        for (int i = 0; i < args.length; ++i) {
-            log.info(MessageFormat.format("args[{0}]: {1}", i, args[i]));
-        }
-
     }
 
 

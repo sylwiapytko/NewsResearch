@@ -3,7 +3,7 @@ Ze względu na niedostępność danych z\,platformy Facebook, musiało nastąpi�
 \par
 Aby jednak w\,dalszej części badań zachować jak największą spójność do odtworzenia wyników klasyfikacji dla obecnie analizowanych danych użyto udostępnionego kodu stworzonego przez twórców pracy Some Like It Hoax. 
 
-\subsection{Opis użytych algorytmów }
+\subsection{Opis użytych algorytmów } \label{klasyfikacja-algorytmy}
 Dokonano dwa podejścia do rozwiązania problemu klasyfikacji postów. Jako pierwsze potraktowano ten problem jako nadzorowaną klasyfikacje binarną używając regresji logistycznej. Następie przedstawiono ten problem jako problem binarnego etykietowania poprzez crowdsourcing (ang. boolean label crowdsourcing problem BLC). 
 \subsubsection{Regresja logistyczna}
 Przedstawiając powyższy problem jako nadzorowaną klasyfikację binarną klasyfikujemy przynależność postów do odpowiedniej z\,dwóch klas – Junk albo Mainstream. Dzieje się to na podstawie ich cech, w\,tym przypadku cechami są użytkownicy. Każdy post posiada zbiór cech, który może przyjmować jedną z\,dwóch możliwych wartości – 1, gdy dany użytkownik udostępnił dany post lub 0, gdy dany użytkownik nie udostępnił danego postu.
