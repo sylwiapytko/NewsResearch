@@ -60,12 +60,13 @@ public class Newstest3Application
 
         //twitterService.fetchTwitterUsersAccounts();
         //twitterService.updateTwitterUsersTweets();
-        //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
 
+        //extraDataService.fetchAGAINRetweetersofUsersbyClassificationandTime();
         //extraDataService.fetchRetweetersofUsersbyClassificationandTime();
-        //researchService.saveAccountswithClassificationToJson();
-       // researchService.writeTweetswithRetweetersToJson();
-       // researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
+
+        researchService.saveAccountswithClassificationToJson();
+        researchService.writeTweetswithRetweetersToJson();
+        researchService.saveClassificationAccountsToJson(AccountClassification.JUNK);
 
         networkService.fetchGraphEdges();
 
